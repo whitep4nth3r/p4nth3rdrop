@@ -1,4 +1,5 @@
 export default {
+  broadcaster: 'whitep4nth3r',
   clientId: process.env.REACT_APP_CLIENT_ID,
   dropTimeout: 10_000,
   maxVisibleDrops: 600,

@@ -12,7 +12,7 @@ const client = new tmi.Client({
 		secure: true,
 		reconnect: true
 	},
-	channels: [ 'whitep4nth3r' ]
+	channels: [ config.broadcaster ]
 });
 
 client.connect();				
@@ -63,7 +63,7 @@ export default function Sketch(p5) {
   });
 
   client.on('message', async (channel, tags, message, self) => {
-    if (tags.username === 'whitep4nth3r') {
+    if (tags.username === config.broadcaster) {
       if (message === '!start-trail') return trailing = true;
       else if (message === '!end-trail') return trailing = false;
       else if (message.match(/^!drop-timeout/)) {
