@@ -1,5 +1,7 @@
 # P4nth3rDrop!
 
+_Because everyone needs an interactive Twitch game, right?_
+
 ## Chat Commands
 
 ```
