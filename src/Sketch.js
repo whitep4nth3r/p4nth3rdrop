@@ -62,6 +62,30 @@ export default function Sketch(p5) {
     eventRain(viewers);
   });
 
+  client.on("anongiftpaidupgrade", (channel, username, userstate) => {
+    rain(getRandomSizedEmotes(), 20); 
+  });
+
+  client.on("giftpaidupgrade", (channel, username, sender, userstate) => {
+    rain(getRandomSizedEmotes(), 20); 
+  });
+
+  client.on("resub", (channel, username, months, message, userstate, methods) => {
+    rain(getRandomSizedEmotes(), 20); 
+  });
+
+  client.on("submysterygift", (channel, username, numbOfSubs, methods, userstate) => {
+    rain(getRandomSizedEmotes(), 20); 
+  });
+
+  client.on("subgift", (channel, username, streakMonths, recipient, methods, userstate) => {
+    rain(getRandomSizedEmotes(), 20);
+  });
+
+  client.on("subscription", (channel, username, method, message, userstate) => {
+    rain(getRandomSizedEmotes(), 20);
+  });
+
   client.on('message', async (channel, tags, message, self) => {
     if (tags.username === config.broadcaster) {
       if (message === '!start-trail') return trailing = true;
