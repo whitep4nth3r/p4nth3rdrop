@@ -170,11 +170,11 @@ export default function Sketch(p5) {
     }
 
     const command = utils.getCommandFromMessage(message)
-    const drop = config.drops[command]
+    const dropConfig = config.drops[command]
 
-    if (drop) {
+    if (dropConfig) {
       // console.info('Running', command)
-      strategies[drop.strategy](drop, command, utils.getRestOfMessage(message))
+      strategies[dropConfig.strategy](dropConfig, command, utils.getRestOfMessage(message))
     } else {
       // console.warn('Did not recognise ', command)
     }
