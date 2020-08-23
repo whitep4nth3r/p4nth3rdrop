@@ -1,37 +1,75 @@
 export default {
-  broadcaster: 'whitep4nth3r',
+  broadcaster: {
+    username: 'whitep4nth3r',
+    commands: {
+      endTrail: '!end-trail',
+      startTrail: '!start-trail'
+    }
+  },
   clientId: process.env.REACT_APP_CLIENT_ID,
   dropTimeout: 10_000,
   maxVisibleDrops: 600,
   test: false,
   minAccountAge: 7 * 24 * 60 * 60 * 1000,
-  chatCommands: {
-    bigdrop: '!bigdrop',
-    blizzard: '!blizzard',
-    drop: '!drop',
-    endTrail: '!endTrail',
-    hail: '!hail',
-    rain: '!rain',
-    shower: '!shower',
-    snow: '!snow',
-    startTrail: '!start-trail'
-  },
-  dropVelocities: {
-    default: {
-      min: 3,
-      max: 7
+  drops: {
+    drop: {
+      command: '!drop',
+      emoteMultiplier: 1,
+      velocities: {
+        min: 3,
+        max: 7
+      }
+    },
+    bigDrop: {
+      command: '!bigdrop'
+    },
+    rain: {
+      command: '!rain',
+      emoteMultiplier: 15,
+      velocities: {
+        min: 3,
+        max: 7
+      }
     },
     blizzard: {
-      min:20, 
-      max:30
+      command: '!blizzard',
+      emoteMultiplier: 15,
+      velocities: {
+        min: 20, 
+        max: 30
+      }
+    },
+    hail: {
+      command: '!hail',
+      emoteMultiplier: 15,
+      velocities: {
+        min: 4,
+        max: 10
+      }
+    },
+    shower: {
+      command: '!shower',
+      emoteMultiplier: 5,
+      velocities: {
+        min: 2,
+        max: 6
+      }
     },
     snow: {
-      min: 1, 
-      max: 2
+      command: '!snow',
+      emoteMultiplier: 10,
+      velocities: {
+        min: 1, 
+        max: 2
+      }
     },
     user: {
-      min: 1,
-      max: 3
+      command: 'xxx',
+      emoteMultiplier: 1,
+      velocities: {
+        min: 3,
+        max: 7
+      }
     }
   },
   specialUsers: [
