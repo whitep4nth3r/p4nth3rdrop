@@ -203,7 +203,7 @@ export default function Sketch(p5) {
       // not added to queue for testing
       const images = await Promise.all(utils.getPantherEmotes(emotes.sizes[1]).map(url => imageManager.getImage(url)));
       drops = Array.from({ length: 10 }).reduce((drops) => {
-        return drops.concat(images.map(image => new Drop(p5, image, config.drops.rain.velocities)));
+        return drops.concat(images.map(image => new Drop(p5, image, config.drops['!rain'].velocities)));
       }, []);
     }
   };
