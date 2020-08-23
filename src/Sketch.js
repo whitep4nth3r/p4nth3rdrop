@@ -2,6 +2,7 @@
 
 import tmi from 'tmi.js';
 import clipImage from './white_circle.png';
+import clipImageBig from './white_circle_big.png';
 import Drop from './Drop';
 import ImageManager from './ImageManager';
 import config from './config';
@@ -72,27 +73,46 @@ export default function Sketch(p5) {
     eventRain(viewers);
   });
 
-  client.on("anongiftpaidupgrade", (channel, username, userstate) => {
+  client.on("anongiftpaidupgrade", async (channel, username, userstate) => {
+    const userId = userstate.user_id;
+    const user = await userManager.getUser(userId);
+    dropUser(user, true)
     rain(getRandomSizedEmotes(), 20); 
   });
 
-  client.on("giftpaidupgrade", (channel, username, sender, userstate) => {
+  client.on("giftpaidupgrade", async (channel, username, sender, userstate) => {
+    const userId = userstate.user_id;
+    const user = await userManager.getUser(userId);
+    dropUser(user, true)
     rain(getRandomSizedEmotes(), 20); 
   });
 
-  client.on("resub", (channel, username, months, message, userstate, methods) => {
+  client.on("resub", async (channel, username, months, message, userstate, methods) => {
+    const userId = userstate.user_id;
+    const user = await userManager.getUser(userId);
+    dropUser(user, true)
     rain(getRandomSizedEmotes(), 20); 
   });
 
-  client.on("submysterygift", (channel, username, numbOfSubs, methods, userstate) => {
+  client.on("submysterygift", async (channel, username, numbOfSubs, methods, userstate) => {
+    const userId = userstate.user_id;
+    const user = await userManager.getUser(userId);
+    dropUser(user, true)
     rain(getRandomSizedEmotes(), 20); 
   });
 
-  client.on("subgift", (channel, username, streakMonths, recipient, methods, userstate) => {
+  client.on("subgift", async (channel, username, streakMonths, recipient, methods, userstate) => {
+    const userId = userstate.user_id;
+    const user = await userManager.getUser(userId);
+    dropUser(user, true)
     rain(getRandomSizedEmotes(), 20);
   });
 
-  client.on("subscription", (channel, username, method, message, userstate) => {
+  client.on("subscription", async (channel, username, method, message, userstate) => {
+    console.log('SUBSCRIPTION RECEIVED');
+    const userId = userstate.user_id;
+    const user = await userManager.getUser(userId);
+    dropUser(user, true)
     rain(getRandomSizedEmotes(), 20);
   });
 
@@ -128,25 +148,20 @@ export default function Sketch(p5) {
 
       if (tags.emotes) {
         const emoteIds = Object.keys(tags.emotes);
-        // choose random emote if too many viewers decide to drop all the emotes
+        // TODO choose random emote if too many viewers decide to drop all the emotes
         // const emoteId = p5.random(emoteIds);
-
         emoteIds.forEach(async (emoteId) => {
           const imageUrl = `https://static-cdn.jtvnw.net/emoticons/v1/${emoteId}/${imgSize}`;
           const image = await imageManager.getImage(imageUrl);
           queueDrop(image);
         })
       } else if (message.match(/\bme\b/)) {
-        const userId = tags['user-id'];
-        const user = await userManager.getUser(userId);
-        if (Date.now() - new Date(user.created_at) >= config.minAccountAge) {
-          // TODO: make sure this sizing doesn't break...
-          const imageUrl = user.logo.replace('300x300', '50x50');
-          const image = await imageManager.getImage(imageUrl);
-          const clip = await imageManager.getImage(clipImage);
-          image.mask(clip);
-          queueDrop(image);
-        }
+          const userId = tags['user-id'];
+          const user = await userManager.getUser(userId);
+
+          if (Date.now() - new Date(user.created_at) >= config.minAccountAge) {
+            dropUser(user)
+          }
       }
     }
   });
@@ -162,6 +177,7 @@ export default function Sketch(p5) {
       }, []);
     }
   };
+  
   p5.draw = () => {
     if (!trailing) p5.clear();
     const now = Date.now();
@@ -175,6 +191,16 @@ export default function Sketch(p5) {
       dropQueue = dropQueue.slice(end);
     }
   };
+
+  const dropUser = async (user, big = false) => {
+    // TODO: make sure this sizing doesn't break...)
+    const imageUrl = big ? user.logo : user.logo.replace('300x300', '50x50');
+    const image = await imageManager.getImage(imageUrl);
+    const _clipImage = big ? clipImageBig : clipImage;
+    const clip = await imageManager.getImage(_clipImage);
+    image.mask(clip);
+    queueDrop(image);
+  }
 
   const getRandomSizedEmotes = () => {
     const imageSizes = ['2.0', '3.0'];

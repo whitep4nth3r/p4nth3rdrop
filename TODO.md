@@ -1,6 +1,7 @@
 # TODO
 
 - [ ] Tests
+- [ ] Convert to TS
 - [*] !rain
 - [*] !rain parameters? / !blizzard / !shower
 - [*] !drop multiple unique emotes?
@@ -15,7 +16,8 @@
 - [ ] Stream events
   - [*] Bits
   - [*] Raids
+  - [ ] Drop raider on a raid
   - [*] Subs
   - [ ] Subscribe - drop a big subscriber avatar
-  - [ ] Follows - drop a big follower avatar
+  - [ ] Follows - drop a big follower avatar - need real Twitch API stuff
   - [*] Custom drops for special people - channel point redemption
