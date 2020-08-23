@@ -1,7 +1,7 @@
 # TODO
 
 - [ ] Tests
-- [ ] Convert to TS
+- [ ] Convert to Typescript
 - [*] !rain
 - [*] !rain parameters? / !blizzard / !shower
 - [*] !drop multiple unique emotes?
