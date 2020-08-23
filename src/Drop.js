@@ -6,7 +6,7 @@ export default class Drop {
    * @param {import('p5')} p5
    * @param {import('p5').Image} image
    */
-  constructor(p5, image, velocity1 = 3, velocity2 = 7) {
+  constructor(p5, image, velocity) {
     this.p5 = p5;
     this.image = image;
     this.landed = false;
@@ -15,11 +15,11 @@ export default class Drop {
       p5.random(0, p5.windowWidth - image.width),
       -100,
     );
-    this.velocity1 = velocity1;
-    this.velocity2 = velocity2;
+
+    this.velocity = velocity;
     this.velocity = Vector.fromAngle(
       p5.random(p5.PI * 0.1, p5.PI * 0.9),
-      p5.random(this.velocity1, this.velocity2),
+      p5.random(this.velocity.min, this.velocity.max),
     );
   }
 

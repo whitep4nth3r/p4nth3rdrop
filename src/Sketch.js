@@ -30,11 +30,11 @@ export default function Sketch(p5) {
   const userManager = new UserManager();
   let trailing = false;
 
-  const queueDrop = (image, velocity1, velocity2) => {
+  const queueDrop = (image, velocity) => {
     if (drops.length <= config.maxVisibleDrops) {
-      drops.push(new Drop(p5, image, velocity1, velocity2));
+      drops.push(new Drop(p5, image, velocity));
     } else {
-      dropQueue.push(new Drop(p5, image, velocity1, velocity2));
+      dropQueue.push(new Drop(p5, image, velocity));
     }
   };
 
@@ -42,7 +42,7 @@ export default function Sketch(p5) {
     const images = await Promise.all(emotes.map(url => imageManager.getImage(url)));
 
     while (imgMultiplier--) {
-      images.map(image => queueDrop(image, velocity.min, velocity.max));
+      images.map(image => queueDrop(image, velocity));
     }
   }
 
@@ -54,11 +54,11 @@ export default function Sketch(p5) {
         p5.random(utils.getRandomSizedPantherEmotes()))
     }
 
-    rain(emotes, 1, config.rainVelocities.default);
+    rain(emotes, 1, config.dropVelocities.default);
   }
 
   const specialUserEvent = (username) => {
-    rain(utils.getSpecialUserEmotes(username), 1, config.rainVelocities.default);
+    rain(utils.getSpecialUserEmotes(username), 1, config.dropVelocities.default);
   }
 
   client.on("join", (channel, username, self) => {
@@ -79,42 +79,42 @@ export default function Sketch(p5) {
     const userId = userstate.user_id;
     const user = await userManager.getUser(userId);
     dropUser(user, true)
-    rain(utils.getRandomSizedPantherEmotes(), 20, config.rainVelocities.default); 
+    rain(utils.getRandomSizedPantherEmotes(), 20, config.dropVelocities.default); 
   });
 
   client.on("giftpaidupgrade", async (channel, username, sender, userstate) => {
     const userId = userstate.user_id;
     const user = await userManager.getUser(userId);
     dropUser(user, true)
-    rain(utils.getRandomSizedPantherEmotes(), 20, config.rainVelocities.default); 
+    rain(utils.getRandomSizedPantherEmotes(), 20, config.dropVelocities.default); 
   });
 
   client.on("resub", async (channel, username, months, message, userstate, methods) => {
     const userId = userstate.user_id;
     const user = await userManager.getUser(userId);
     dropUser(user, true)
-    rain(utils.getRandomSizedPantherEmotes(), 20, config.rainVelocities.default); 
+    rain(utils.getRandomSizedPantherEmotes(), 20, config.dropVelocities.default); 
   });
 
   client.on("submysterygift", async (channel, username, numbOfSubs, methods, userstate) => {
     const userId = userstate.user_id;
     const user = await userManager.getUser(userId);
     dropUser(user, true)
-    rain(utils.getRandomSizedPantherEmotes(), 20, config.rainVelocities.default); 
+    rain(utils.getRandomSizedPantherEmotes(), 20, config.dropVelocities.default); 
   });
 
   client.on("subgift", async (channel, username, streakMonths, recipient, methods, userstate) => {
     const userId = userstate.user_id;
     const user = await userManager.getUser(userId);
     dropUser(user, true)
-    rain(utils.getRandomSizedPantherEmotes(), 20, config.rainVelocities.default);
+    rain(utils.getRandomSizedPantherEmotes(), 20, config.dropVelocities.default);
   });
 
   client.on("subscription", async (channel, username, method, message, userstate) => {
     const userId = userstate.user_id;
     const user = await userManager.getUser(userId);
     dropUser(user, true)
-    rain(utils.getRandomSizedPantherEmotes(), 20, config.rainVelocities.default);
+    rain(utils.getRandomSizedPantherEmotes(), 20, config.dropVelocities.default);
   });
 
   client.on('message', async (channel, tags, message, self) => {
@@ -130,35 +130,35 @@ export default function Sketch(p5) {
     }
 
     if (message.startsWith(config.chatCommands.blizzard)) {
-      rain(utils.getRandomSizedPantherEmotes(), 30, {min:20, max:30});
+      rain(utils.getRandomSizedPantherEmotes(), 30, config.dropVelocities.blizzard);
     }
 
     else if (message.startsWith(config.chatCommands.hail)) {
-      rain(utils.getRandomSizedPantherEmotes(), 15, config.rainVelocities.default);
+      rain(utils.getRandomSizedPantherEmotes(), 15, config.dropVelocities.default);
     }
 
     else if (message.startsWith(config.chatCommands.rain)) {
       console.log('rain command');
-      rain(utils.getPantherEmotes(emotes.sizes[1]), 15, config.rainVelocities.default);
+      rain(utils.getPantherEmotes(emotes.sizes[1]), 15, config.dropVelocities.default);
     }
 
     else if (message.startsWith(config.chatCommands.snow)) {
-      rain(utils.getPantherEmotes(emotes.sizes[0]), 10, {min:1, max:2});
+      rain(utils.getPantherEmotes(emotes.sizes[0]), 10, config.dropVelocities.snow);
     }
 
     else if (message.startsWith(config.chatCommands.shower)) {
-      rain(utils.getPantherEmotes(emotes.sizes[1]), 5, config.rainVelocities.default);
+      rain(utils.getPantherEmotes(emotes.sizes[1]), 5, config.dropVelocities.default);
     }
 
     else if (message.startsWith(config.chatCommands.drop) || message.startsWith('!bigdrop')) {
 
-      const imgSize = message.startsWith(config.chatCommands.bigDrop) ? '3.0' : '2.0'
+      const imgSize = message.startsWith(config.chatCommands.bigDrop) ? emotes.sizes[2] : emotes.sizes[1]
 
       if (tags.emotes) {
         const emoteIds = Object.keys(tags.emotes);
         // const emoteId = p5.random(emoteIds);
         emoteIds.forEach(async (emoteId) => {
-          const imageUrl = `https://static-cdn.jtvnw.net/emoticons/v1/${emoteId}/${imgSize}`;
+          const imageUrl = `${emotes.baseUrl}${emoteId}/${imgSize}`;
           const image = await imageManager.getImage(imageUrl);
           queueDrop(image);
         })
@@ -183,7 +183,7 @@ export default function Sketch(p5) {
     const clip = await imageManager.getImage(_clipImage);
 
     image.mask(clip);
-    queueDrop(image);
+    queueDrop(image, config.dropVelocities.user);
   }
 
 
@@ -197,7 +197,7 @@ export default function Sketch(p5) {
       // not added to queue for testing
       const images = await Promise.all(utils.getPantherEmotes(emotes.sizes[1]).map(url => imageManager.getImage(url)));
       drops = Array.from({ length: 10 }).reduce((drops) => {
-        return drops.concat(images.map(image => new Drop(p5, image)));
+        return drops.concat(images.map(image => new Drop(p5, image, config.dropVelocities.default)));
       }, []);
     }
   };

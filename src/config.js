@@ -16,10 +16,22 @@ export default {
     snow: '!snow',
     startTrail: '!start-trail'
   },
-  rainVelocities: {
+  dropVelocities: {
     default: {
       min: 3,
       max: 7
+    },
+    blizzard: {
+      min:20, 
+      max:30
+    },
+    snow: {
+      min: 1, 
+      max: 2
+    },
+    user: {
+      min: 1,
+      max: 3
     }
   },
   specialUsers: [
