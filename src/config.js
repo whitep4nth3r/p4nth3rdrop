@@ -1,3 +1,5 @@
+import emotes from './emotes';
+
 export default {
   broadcaster: {
     username: 'whitep4nth3r',
@@ -12,65 +14,65 @@ export default {
   test: false,
   minAccountAge: 7 * 24 * 60 * 60 * 1000,
   drops: {
-    drop: {
-      command: '!drop',
+    '!drop': {
       emoteMultiplier: 1,
       velocities: {
         min: 3,
         max: 7
-      }
+      },
+      strategy: 'drop'
     },
-    bigDrop: {
-      command: '!bigdrop'
+    '!bigdrop': {
+      emoteMultiplier: 1,
+      velocities: {
+        min: 3,
+        max: 7
+      },
+      strategy: 'drop'
     },
-    rain: {
-      command: '!rain',
+    '!rain': {
       emoteMultiplier: 15,
       velocities: {
         min: 3,
         max: 7
-      }
+      },
+      strategy: 'dropSpecificSizedPanthers',
+      size: emotes.sizes[1]
     },
-    blizzard: {
-      command: '!blizzard',
+    '!blizzard': {
       emoteMultiplier: 15,
       velocities: {
         min: 20, 
         max: 30
-      }
+      },
+      strategy: 'dropRandomSizedPanthers'
     },
-    hail: {
-      command: '!hail',
+    '!hail': {
       emoteMultiplier: 15,
       velocities: {
         min: 4,
         max: 10
-      }
+      },
+      strategy: 'dropRandomSizedPanthers'
     },
-    shower: {
-      command: '!shower',
+    '!shower': {
       emoteMultiplier: 5,
       velocities: {
         min: 2,
         max: 6
-      }
+      },
+      strategy: 'dropSpecificSizedPanthers',
+      size: emotes.sizes[1]
     },
-    snow: {
-      command: '!snow',
+    '!snow': {
       emoteMultiplier: 10,
       velocities: {
         min: 1, 
         max: 2
-      }
+      },
+      strategy: 'dropSpecificSizedPanthers',
+      size: emotes.sizes[0]
     },
-    user: {
-      command: 'xxx',
-      emoteMultiplier: 1,
-      velocities: {
-        min: 3,
-        max: 7
-      }
-    }
   },
   specialUsers: [
     'thatn00b__',

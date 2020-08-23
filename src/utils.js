@@ -8,6 +8,9 @@ export default class {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  static getCommandFromMessage = (message) => message.split(' ')[0]
+  static getRestOfMessage = (message) => message.split(' ').slice(1)
+
   static getPantherEmotes = (size) => {
     return emotes.panthers.map(pantherId => 
       `${emotes.baseUrl}${pantherId}/${size}`);

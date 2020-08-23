@@ -54,11 +54,11 @@ export default function Sketch(p5) {
         p5.random(utils.getRandomSizedPantherEmotes()))
     }
 
-    rain(emotes, 1, config.drops.rain.velocities);
+    rain(emotes, 1, config.drops['!rain'].velocities);
   }
 
   const specialUserEvent = (username) => {
-    rain(utils.getSpecialUserEmotes(username), 1, config.drops.rain.velocities);
+    rain(utils.getSpecialUserEmotes(username), 1, config.drops['!rain'].velocities);
   }
 
   client.on("join", (channel, username, self) => {
@@ -79,14 +79,14 @@ export default function Sketch(p5) {
     const userId = userstate.user_id;
     const user = await userManager.getUser(userId);
     dropUser(user, true)
-    rain(utils.getRandomSizedPantherEmotes(), config.drops.rain.emoteMultiplier, config.drops.rain.velocities); 
+    rain(utils.getRandomSizedPantherEmotes(), config.drops['!rain'].emoteMultiplier, config.drops['!rain'].velocities); 
   });
 
   client.on("giftpaidupgrade", async (channel, username, sender, userstate) => {
     const userId = userstate.user_id;
     const user = await userManager.getUser(userId);
     dropUser(user, true)
-    rain(utils.getRandomSizedPantherEmotes(), config.drops.rain.emoteMultiplier, config.drops.rain.velocities); 
+    rain(utils.getRandomSizedPantherEmotes(), config.drops['!rain'].emoteMultiplier, config.drops['!rain'].velocities); 
   });
 
   client.on("resub", async (channel, username, months, message, userstate, methods) => {
@@ -94,8 +94,8 @@ export default function Sketch(p5) {
     const user = await userManager.getUser(userId);
     dropUser(user, true)
     rain(utils.getRandomSizedPantherEmotes(), 
-      config.drops.rain.emoteMultiplier, 
-      config.drops.rain.velocities); 
+      config.drops['!rain'].emoteMultiplier, 
+      config.drops['!rain'].velocities); 
   });
 
   client.on("submysterygift", async (channel, username, numbOfSubs, methods, userstate) => {
@@ -103,8 +103,8 @@ export default function Sketch(p5) {
     const user = await userManager.getUser(userId);
     dropUser(user, true)
     rain(utils.getRandomSizedPantherEmotes(), 
-      config.drops.rain.emoteMultiplier, 
-      config.drops.rain.velocities); 
+      config.drops['!rain'].emoteMultiplier, 
+      config.drops['!rain'].velocities); 
   });
 
   client.on("subgift", async (channel, username, streakMonths, recipient, methods, userstate) => {
@@ -112,8 +112,8 @@ export default function Sketch(p5) {
     const user = await userManager.getUser(userId);
     dropUser(user, true)
     rain(utils.getRandomSizedPantherEmotes(), 
-      config.drops.rain.emoteMultiplier, 
-      config.drops.rain.velocities);
+      config.drops['!rain'].emoteMultiplier, 
+      config.drops['!rain'].velocities);
   });
 
   client.on("subscription", async (channel, username, method, message, userstate) => {
@@ -121,8 +121,8 @@ export default function Sketch(p5) {
     const user = await userManager.getUser(userId);
     dropUser(user, true)
     rain(utils.getRandomSizedPantherEmotes(), 
-      config.drops.rain.emoteMultiplier, 
-      config.drops.rain.velocities);
+      config.drops['!rain'].emoteMultiplier, 
+      config.drops.['!rain'].velocities);
   });
 
   client.on('message', async (channel, tags, message, self) => {
@@ -137,59 +137,48 @@ export default function Sketch(p5) {
       }
     }
 
-    if (message.startsWith(config.drops.blizzard.command)) {
-      rain(utils.getRandomSizedPantherEmotes(), 
-      config.drops.blizzard.emoteMultiplier, 
-      config.drops.blizzard.velocities);
-    }
-
-    else if (message.startsWith(config.drops.hail.command)) {
-      rain(utils.getRandomSizedPantherEmotes(), 
-      config.drops.hail.emoteMultiplier, 
-      config.drops.hail.velocities);
-    }
-
-    else if (message.startsWith(config.drops.rain.command)) {
-      rain(utils.getPantherEmotes(emotes.sizes[1]), 
-      config.drops.rain.emoteMultiplier, config.drops.rain.velocities);
-    }
-
-    else if (message.startsWith(config.drops.snow.command)) {
-      rain(utils.getPantherEmotes(emotes.sizes[0]), 
-      config.drops.snow.emoteMultiplier, 
-      config.drops.snow.velocities);
-    }
-
-    else if (message.startsWith(config.drops.shower.command)) {
-      rain(utils.getPantherEmotes(emotes.sizes[1]), 
-      config.drops.shower.emoteMultiplier, 
-      config.drops.shower.velocities);
-    }
-
-    else if (message.startsWith(config.drops.drop.command) 
-    || message.startsWith(config.drops.bigDrop.command)) {
-
-      const imgSize = message.startsWith(config.drops.bigDrop.command) ? emotes.sizes[2] : emotes.sizes[1]
-
-      if (tags.emotes) {
-        const emoteIds = Object.keys(tags.emotes);
-        // const emoteId = p5.random(emoteIds);
-        emoteIds.forEach(async (emoteId) => {
-          const imageUrl = `${emotes.baseUrl}${emoteId}/${imgSize}`;
-          const image = await imageManager.getImage(imageUrl);
-          queueDrop(image, config.drops.drop.velocities);
-        })
-      } else if (message.match(/\bme\b/)) {
+    const strategies = {
+      dropRandomSizedPanthers: (dropConfig) => {
+        rain(utils.getRandomSizedPantherEmotes(), 
+        dropConfig.emoteMultiplier, 
+        dropConfig.velocities);
+      },
+      dropSpecificSizedPanthers: (dropConfig) => {
+        rain(utils.getPantherEmotes(dropConfig.size),
+        dropConfig.emoteMultiplier, dropConfig.velocities);
+      },
+      drop: async (dropConfig, command, args) => {
+        const imgSize = command === '!bigdrop' ? emotes.sizes[2] : emotes.sizes[1]
+        
+        if (args[0] === 'me') {
           const userId = tags['user-id'];
           const user = await userManager.getUser(userId);
-
+  
           if (Date.now() - new Date(user.created_at) >= config.minAccountAge) {
-            dropUser(user)
+            dropUser(user, false)
           }
+        } else if (tags.emotes) {
+          const emoteIds = Object.keys(tags.emotes);
+          // const emoteId = p5.random(emoteIds);
+          emoteIds.forEach(async (emoteId) => {
+            const imageUrl = `${emotes.baseUrl}${emoteId}/${imgSize}`;
+            const image = await imageManager.getImage(imageUrl);
+            queueDrop(image, dropConfig.velocities);
+          })
+        }
       }
     }
-  });
 
+    const command = utils.getCommandFromMessage(message)
+    const drop = config.drops[command]
+
+    if (drop) {
+      // console.info('Running', command)
+      strategies[drop.strategy](drop, command, utils.getRestOfMessage(message))
+    } else {
+      // console.warn('Did not recognise ', command)
+    }
+  });
 
   const dropUser = async (user, big = false) => {
     // TODO: make sure this sizing doesn't break...
@@ -200,7 +189,7 @@ export default function Sketch(p5) {
     const clip = await imageManager.getImage(_clipImage);
 
     image.mask(clip);
-    queueDrop(image, config.drops.user.velocities);
+    queueDrop(image, config.drops['!drop'].velocities);
   }
 
 
