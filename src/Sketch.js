@@ -122,7 +122,7 @@ export default function Sketch(p5) {
     dropUser(user, true)
     rain(utils.getRandomSizedPantherEmotes(), 
       config.drops['!rain'].emoteMultiplier, 
-      config.drops.['!rain'].velocities);
+      config.drops['!rain'].velocities);
   });
 
   client.on('message', async (channel, tags, message, self) => {
