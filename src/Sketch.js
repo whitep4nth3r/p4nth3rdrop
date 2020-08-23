@@ -54,6 +54,16 @@ export default function Sketch(p5) {
     rain(emotes, 1);
   }
 
+  const userEvent = (username) => {
+    rain(getSpecialUserEmotes(username), 3);
+  }
+
+  client.on("join", (channel, username, self) => {
+    if(config.specialUsers.includes(username)) {
+      userEvent(username);
+    }
+  });
+
   client.on("cheer", (channel, userstate, message) => {
     eventRain(userstate.bits);
   });
@@ -176,5 +186,9 @@ export default function Sketch(p5) {
       `https://static-cdn.jtvnw.net/emoticons/v1/302880702/${imageSizes[Math.round(Math.random())]}`,
       `https://static-cdn.jtvnw.net/emoticons/v1/302880692/${imageSizes[Math.round(Math.random())]}`,
     ]
+  }
+
+  const getSpecialUserEmotes = username => {
+    return config.specialUsersEmotes[username]
   }
 }
