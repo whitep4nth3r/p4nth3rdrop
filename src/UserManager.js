@@ -11,12 +11,15 @@ export default class UserManager {
     }
 
     const user = (async () => {
-      const response = await fetch(`https://api.twitch.tv/kraken/users/${userId}`, {
-        headers: {
-          accept: 'application/vnd.twitchtv.v5+json',
-          'client-id': config.clientId,
+      const response = await fetch(
+        `https://api.twitch.tv/kraken/users/${userId}`,
+        {
+          headers: {
+            accept: 'application/vnd.twitchtv.v5+json',
+            'client-id': config.clientId,
+          },
         }
-      });
+      );
       return response.json();
     })();
     this.cache.set(userId, user);

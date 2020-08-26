@@ -6,11 +6,7 @@ import Sketch from './Sketch';
 const instance = new P5(Sketch, 'container');
 
 const PantherDrop = () => {
-
-  return (
-    <main id='container'>
-    </main>
-  );
+  return <main id="container"></main>;
 };
 
 export default PantherDrop;
