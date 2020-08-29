@@ -10,7 +10,7 @@ export default {
   },
   clientId: process.env.REACT_APP_CLIENT_ID,
   dropTimeout: 10_000,
-  maxVisibleDrops: 600,
+  maxVisibleDrops: 500,
   test: false,
   minAccountAge: 7 * 24 * 60 * 60 * 1000,
   drops: {
