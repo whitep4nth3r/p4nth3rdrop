@@ -57,7 +57,7 @@ export default function Sketch(p5) {
   };
 
   const specialUserEvent = (username) => {
-    rain(utils.getSpecialUserEmotes(username), 1, config.drops['!rain'].velocities);
+    rain(utils.getSpecialUserEmotes(username), 5, config.drops['!rain'].velocities);
   };
 
   client.on('join', (channel, username, self) => {
