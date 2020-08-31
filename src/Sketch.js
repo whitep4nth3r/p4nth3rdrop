@@ -39,7 +39,9 @@ export default function Sketch(p5) {
   };
 
   const rain = async (emotes, emoteMultiplier, velocity) => {
-    const images = await Promise.all(emotes.map((url) => imageManager.getImage(url)));
+    const images = await Promise.all(
+      emotes.map((url) => imageManager.getImage(url))
+    );
 
     while (emoteMultiplier--) {
       images.map((image) => queueDrop(image, velocity));
@@ -57,7 +59,11 @@ export default function Sketch(p5) {
   };
 
   const specialUserEvent = (username) => {
-    rain(utils.getSpecialUserEmotes(username), 5, config.drops['!rain'].velocities);
+    rain(
+      utils.getSpecialUserEmotes(username),
+      5,
+      config.drops['!rain'].velocities
+    );
   };
 
   client.on('join', (channel, username, self) => {
@@ -67,7 +73,10 @@ export default function Sketch(p5) {
   });
 
   client.on('cheer', (channel, userstate, message) => {
-    const bits = userstate.bits < config.maxVisibleDrops ? userstate.bits : config.maxVisibleDrops;
+    const bits =
+      userstate.bits < config.maxVisibleDrops
+        ? userstate.bits
+        : config.maxVisibleDrops;
 
     eventRain(bits);
   });
@@ -77,7 +86,7 @@ export default function Sketch(p5) {
   });
 
   client.on('anongiftpaidupgrade', async (channel, username, userstate) => {
-    dropUser(userstate.user_id, true);
+    dropUser(userstate['user-id'], true);
     rain(
       utils.getRandomSizedPantherEmotes(),
       config.drops['!rain'].emoteMultiplier,
@@ -86,7 +95,7 @@ export default function Sketch(p5) {
   });
 
   client.on('giftpaidupgrade', async (channel, username, sender, userstate) => {
-    dropUser(userstate.user_id, true);
+    dropUser(userstate['user-id'], true);
     rain(
       utils.getRandomSizedPantherEmotes(),
       config.drops['!rain'].emoteMultiplier,
@@ -94,46 +103,62 @@ export default function Sketch(p5) {
     );
   });
 
-  client.on('resub', async (channel, username, months, message, userstate, methods) => {
-    dropUser(userstate.user_id, true);
-    rain(
-      utils.getRandomSizedPantherEmotes(),
-      config.drops['!rain'].emoteMultiplier,
-      config.drops['!rain'].velocities
-    );
-  });
+  client.on(
+    'resub',
+    async (channel, username, months, message, userstate, methods) => {
+      dropUser(userstate['user-id'], true);
+      rain(
+        utils.getRandomSizedPantherEmotes(),
+        config.drops['!rain'].emoteMultiplier,
+        config.drops['!rain'].velocities
+      );
+    }
+  );
 
-  client.on('submysterygift', async (channel, username, numbOfSubs, methods, userstate) => {
-    dropUser(userstate.user_id, true);
-    rain(
-      utils.getRandomSizedPantherEmotes(),
-      config.drops['!rain'].emoteMultiplier,
-      config.drops['!rain'].velocities
-    );
-  });
+  client.on(
+    'submysterygift',
+    async (channel, username, numbOfSubs, methods, userstate) => {
+      dropUser(userstate['user-id'], true);
+      rain(
+        utils.getRandomSizedPantherEmotes(),
+        config.drops['!rain'].emoteMultiplier,
+        config.drops['!rain'].velocities
+      );
+    }
+  );
 
-  client.on('subgift', async (channel, username, streakMonths, recipient, methods, userstate) => {
-    dropUser(userstate.user_id, true);
-    rain(
-      utils.getRandomSizedPantherEmotes(),
-      config.drops['!rain'].emoteMultiplier,
-      config.drops['!rain'].velocities
-    );
-  });
+  client.on(
+    'subgift',
+    async (channel, username, streakMonths, recipient, methods, userstate) => {
+      dropUser(userstate['user-id'], true);
+      rain(
+        utils.getRandomSizedPantherEmotes(),
+        config.drops['!rain'].emoteMultiplier,
+        config.drops['!rain'].velocities
+      );
+    }
+  );
 
-  client.on('subscription', async (channel, username, method, message, userstate) => {
-    dropUser(userstate.user_id, true);
-    rain(
-      utils.getRandomSizedPantherEmotes(),
-      config.drops['!rain'].emoteMultiplier,
-      config.drops['!rain'].velocities
-    );
-  });
+  client.on(
+    'subscription',
+    async (channel, username, method, message, userstate) => {
+      dropUser(userstate['user-id'], true);
+      rain(
+        utils.getRandomSizedPantherEmotes(),
+        config.drops['!rain'].emoteMultiplier,
+        config.drops['!rain'].velocities
+      );
+    }
+  );
 
   client.on('message', async (channel, tags, message, self) => {
+    console.log(tags);
     if (tags.username === config.broadcaster.username) {
-      if (message === config.broadcaster.commands.startTrail) return (trailing = true);
-      else if (message === config.broadcaster.commands.endTrail) return (trailing = false);
+      // dropUser('469006291', true);
+      if (message === config.broadcaster.commands.startTrail)
+        return (trailing = true);
+      else if (message === config.broadcaster.commands.endTrail)
+        return (trailing = false);
       else if (message.match(/^!drop-timeout/)) {
         const timeout = Number(message.split(' ')[1]);
         if (!isNaN(timeout)) {
@@ -158,7 +183,8 @@ export default function Sketch(p5) {
         );
       },
       drop: async (dropConfig, command, args) => {
-        const imgSize = command === '!bigdrop' ? emotes.sizes[2] : emotes.sizes[1];
+        const imgSize =
+          command === '!bigdrop' ? emotes.sizes[2] : emotes.sizes[1];
 
         if (args[0] === 'me') {
           dropUser(tags['user-id'], false);
@@ -178,7 +204,11 @@ export default function Sketch(p5) {
     const dropConfig = config.drops[command];
 
     if (dropConfig) {
-      strategies[dropConfig.strategy](dropConfig, command, utils.getRestOfMessage(message));
+      strategies[dropConfig.strategy](
+        dropConfig,
+        command,
+        utils.getRestOfMessage(message)
+      );
     } else {
       // console.warn('Did not recognise ', command)
     }
@@ -206,12 +236,17 @@ export default function Sketch(p5) {
 
     if (config.test) {
       // not added to queue for testing
+      dropUser('469006291', true);
       const images = await Promise.all(
-        utils.getPantherEmotes(emotes.sizes[1]).map((url) => imageManager.getImage(url))
+        utils
+          .getPantherEmotes(emotes.sizes[1])
+          .map((url) => imageManager.getImage(url))
       );
       drops = Array.from({ length: 10 }).reduce((drops) => {
         return drops.concat(
-          images.map((image) => new Drop(p5, image, config.drops['!rain'].velocities))
+          images.map(
+            (image) => new Drop(p5, image, config.drops['!rain'].velocities)
+          )
         );
       }, []);
     }
