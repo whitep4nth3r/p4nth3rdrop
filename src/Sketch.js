@@ -1,5 +1,4 @@
-/* eslint-disable no-param-reassign */
-
+import Socket from './socket';
 import tmi from 'tmi.js';
 import clipImage from './white_circle.png';
 import clipImageBig from './white_circle_big.png';
@@ -9,6 +8,8 @@ import config from './config';
 import emotes from './emotes';
 import utils from './utils';
 import UserManager from './UserManager';
+
+const socket = new Socket('ws://localhost:8999', { reconnect: true });
 
 const client = new tmi.Client({
   connection: {
@@ -29,6 +30,14 @@ export default function Sketch(p5) {
   const imageManager = new ImageManager(p5);
   const userManager = new UserManager();
   let trailing = false;
+
+  socket.on('message', async (data) => {
+    const parsedData = JSON.parse(data);
+
+    if (parsedData.event === 'SUBSCRIPTION') {
+      bigDropUser(parsedData.subscriberAvatarUrl);
+    }
+  });
 
   const queueDrop = (image, velocity) => {
     if (drops.length <= config.maxVisibleDrops) {
@@ -152,7 +161,6 @@ export default function Sketch(p5) {
   );
 
   client.on('message', async (channel, tags, message, self) => {
-    console.log(tags);
     if (tags.username === config.broadcaster.username) {
       // dropUser('469006291', true);
       if (message === config.broadcaster.commands.startTrail)
@@ -213,6 +221,17 @@ export default function Sketch(p5) {
       // console.warn('Did not recognise ', command)
     }
   });
+
+  const bigDropUser = async (incoming) => {
+    const _image = incoming;
+    const _clipImage = clipImageBig;
+
+    const image = await imageManager.getImage(_image);
+    const clip = await imageManager.getImage(_clipImage);
+
+    image.mask(clip);
+    queueDrop(image, config.drops['!drop'].velocities);
+  };
 
   const dropUser = async (userId, big = false) => {
     const user = await userManager.getUser(userId);
