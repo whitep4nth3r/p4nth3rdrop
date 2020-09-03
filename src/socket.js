@@ -27,7 +27,7 @@ export default class Socket {
   }
 
   set onopen(action) {
-    if (typeof action !== 'function') {
+    if (typeof action !== "function") {
       throw new Error("Argument is not a function, can't call it!");
     }
     this.methods.onopen.push(action);
@@ -38,7 +38,7 @@ export default class Socket {
   }
 
   set onclose(action) {
-    if (typeof action !== 'function') {
+    if (typeof action !== "function") {
       throw new Error("Argument is not a function, can't call it!");
     }
     this.methods.onclose.push(action);
@@ -49,7 +49,7 @@ export default class Socket {
   }
 
   set onerror(action) {
-    if (typeof action !== 'function') {
+    if (typeof action !== "function") {
       throw new Error("Argument is not a function, can't call it!");
     }
     this.methods.onerror.push(action);
@@ -60,7 +60,7 @@ export default class Socket {
   }
 
   set onmessage(action) {
-    if (typeof action !== 'function') {
+    if (typeof action !== "function") {
       throw new Error("Argument is not a function, can't call it!");
     }
     this.methods.onmessage.push(action);
@@ -75,7 +75,7 @@ export default class Socket {
     // Emit a disconnected event and set up an interval that tries to reconnect.
     // closeEvent.type && closeEvent.wasClean && closeEvent.code && closeEvent.reason
     this.methods.onclose.forEach((f) => {
-      if (typeof f !== 'function') {
+      if (typeof f !== "function") {
         throw new Error("Argument is not a function, can't call it!");
       } else {
         if (event.target === this.connection) {
@@ -102,7 +102,7 @@ export default class Socket {
 
   static triggerError(event) {
     this.methods.onerror.forEach((f) => {
-      if (typeof f !== 'function') {
+      if (typeof f !== "function") {
         throw new Error("Argument is not a function, can't call it!");
       } else {
         if (event.target === this.connection) {
@@ -114,7 +114,7 @@ export default class Socket {
 
   static triggerMessage(event) {
     this.methods.onmessage.forEach((f) => {
-      if (typeof f !== 'function') {
+      if (typeof f !== "function") {
         throw new Error("Argument is not a function, can't call it!");
       } else {
         if (event.target === this.connection) {
@@ -126,7 +126,7 @@ export default class Socket {
 
   static triggerOpen(event) {
     this.methods.onopen.forEach((f) => {
-      if (typeof f !== 'function') {
+      if (typeof f !== "function") {
         throw new Error("Argument is not a function, can't call it!");
       } else {
         if (event.target === this.connection) {
@@ -138,18 +138,18 @@ export default class Socket {
 
   on(ev, cb) {
     ev = ev.toLowerCase();
-    if (typeof cb !== 'function') {
+    if (typeof cb !== "function") {
       throw new Error(
-        'The second arguments must be a function to call on event.'
+        "The second arguments must be a function to call on event."
       );
     }
-    if (ev === 'close') {
+    if (ev === "close") {
       this.methods.onclose.push(cb);
-    } else if (ev === 'open') {
+    } else if (ev === "open") {
       this.methods.onopen.push(cb);
-    } else if (ev === 'error') {
+    } else if (ev === "error") {
       this.methods.onerror.push(cb);
-    } else if (ev === 'message') {
+    } else if (ev === "message") {
       this.methods.onmessage.push(cb);
     } else {
       return;
@@ -168,11 +168,11 @@ export default class Socket {
   }
 
   disconnect() {
-    this.connection.close(1000, 'Disconnect');
+    this.connection.close(1000, "Disconnect");
   }
 
   send(data) {
-    if (typeof data === 'string') {
+    if (typeof data === "string") {
       this.connection.send(data);
     }
     if (Array.isArray(data)) {
