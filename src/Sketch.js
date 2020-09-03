@@ -9,7 +9,9 @@ import emotes from "./emotes";
 import utils from "./utils";
 import UserManager from "./UserManager";
 
-const socket = new Socket("ws://localhost:8999", { reconnect: true });
+const socket = new Socket(process.env.REACT_APP_MAINFRAME_WEBSOCKET, {
+  reconnect: true,
+});
 
 socket.on("close", () => {
   console.log("closed");
@@ -35,17 +37,14 @@ export default function Sketch(p5) {
   const userManager = new UserManager();
   let trailing = false;
 
-
   socket.on("sub", async (data) => {
-    console.log(data);
-
-      bigDropUser(data.subscriberAvatarUrl);
-      rain(
-        utils.getRandomSizedPantherEmotes(),
-        config.drops["!rain"].emoteMultiplier,
-        config.drops["!rain"].velocities
-      );
-    });
+    bigDropUser(data.subscriberAvatarUrl);
+    rain(
+      utils.getRandomSizedPantherEmotes(),
+      config.drops["!rain"].emoteMultiplier,
+      config.drops["!rain"].velocities
+    );
+  });
 
   const queueDrop = (image, velocity) => {
     if (drops.length <= config.maxVisibleDrops) {

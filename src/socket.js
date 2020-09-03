@@ -15,24 +15,12 @@ export default class Socket {
     this.methods.set("onclose", new Set());
     this.methods.set("onerror", new Set());
 
+    // These are the only events we care about in p4nth3rdrop
+    this.methods.set("sub", new Set());
     this.methods.set("join", new Set());
-    this.methods.set("chat", new Set());
     this.methods.set("cheer", new Set());
     this.methods.set("raided", new Set());
-    this.methods.set("resub", new Set());
-    this.methods.set("subgift", new Set());
-    this.methods.set("subscribers", new Set());
-    this.methods.set("sub", new Set());
-    this.methods.set("hosted", new Set());
-
-    // {
-    //   onopen: [],
-    //   onclose: [],
-    //   onerror: [],
-    //   // onmessage: [],
-    //   onjoin: [],
-
-    // };
+    this.methods.set("message", new Set());
   }
 
   static createConnection() {
