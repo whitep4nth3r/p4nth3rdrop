@@ -74,5 +74,10 @@ export default {
       size: emotes.sizes[0],
     },
   },
-  specialUsers: ['thatn00b__', 'baldbeardedbuilder', 'melkeydev'],
+  specialUsers: [
+    'thatn00b__',
+    'baldbeardedbuilder',
+    'melkeydev',
+    'madhousesteve',
+  ],
 };
