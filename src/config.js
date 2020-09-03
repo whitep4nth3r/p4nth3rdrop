@@ -77,7 +77,8 @@ export default {
   specialUsers: [
     'thatn00b__',
     'baldbeardedbuilder',
-    'melkeydev',
+    'codingwithluce',
     'madhousesteve',
+    'melkeydev',
   ],
 };
