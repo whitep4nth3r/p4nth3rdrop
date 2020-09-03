@@ -11,6 +11,10 @@ import UserManager from "./UserManager";
 
 const socket = new Socket("ws://localhost:8999", { reconnect: true });
 
+socket.on("close", () => {
+  console.log("closed");
+});
+
 const client = new tmi.Client({
   connection: {
     secure: true,
@@ -31,18 +35,17 @@ export default function Sketch(p5) {
   const userManager = new UserManager();
   let trailing = false;
 
-  socket.on("message", async (data) => {
-    const message = JSON.parse(data);
 
-    if (message.event === "SUBSCRIPTION") {
-      bigDropUser(message.subscriberAvatarUrl);
+  socket.on("sub", async (data) => {
+    console.log(data);
+
+      bigDropUser(data.subscriberAvatarUrl);
       rain(
         utils.getRandomSizedPantherEmotes(),
         config.drops["!rain"].emoteMultiplier,
         config.drops["!rain"].velocities
       );
-    }
-  });
+    });
 
   const queueDrop = (image, velocity) => {
     if (drops.length <= config.maxVisibleDrops) {

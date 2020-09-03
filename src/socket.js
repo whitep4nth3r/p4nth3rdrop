@@ -1,6 +1,6 @@
 export default class Socket {
   constructor(uri, opts, ...protocols) {
-    this.isSecure = /^(wss:\/\/)/.test(uri);
+    this.isSecure = /^(wss:\/\/)/.test(uri) || /^(https:\/\/)/.test(uri);
     this.reconn = opts.reconnect !== undefined ? opts.reconnect : true;
     this.uri = uri;
     this.protocols = protocols;
@@ -9,19 +9,37 @@ export default class Socket {
 
     this.constructor.createConnection.call(this);
 
-    this.methods = {
-      onopen: [],
-      onclose: [],
-      onerror: [],
-      onmessage: [],
-    };
+    this.methods = new Map();
+    this.methods.set("raw", new Set());
+    this.methods.set("onopen", new Set());
+    this.methods.set("onclose", new Set());
+    this.methods.set("onerror", new Set());
+
+    this.methods.set("join", new Set());
+    this.methods.set("chat", new Set());
+    this.methods.set("cheer", new Set());
+    this.methods.set("raided", new Set());
+    this.methods.set("resub", new Set());
+    this.methods.set("subgift", new Set());
+    this.methods.set("subscribers", new Set());
+    this.methods.set("sub", new Set());
+    this.methods.set("hosted", new Set());
+
+    // {
+    //   onopen: [],
+    //   onclose: [],
+    //   onerror: [],
+    //   // onmessage: [],
+    //   onjoin: [],
+
+    // };
   }
 
   static createConnection() {
     this.connection = new WebSocket(this.uri, ...this.protocols);
     this.connection.onopen = this.constructor.triggerOpen.bind(this);
     this.connection.onerror = this.constructor.triggerError.bind(this);
-    this.connection.onmessage = this.constructor.triggerMessage.bind(this);
+    this.connection.onmessage = this.constructor.parseIncoming.bind(this);
     this.connection.onclose = this.constructor.triggerClose.bind(this);
     this.connected = true;
   }
@@ -74,7 +92,7 @@ export default class Socket {
     this.connected = false;
     // Emit a disconnected event and set up an interval that tries to reconnect.
     // closeEvent.type && closeEvent.wasClean && closeEvent.code && closeEvent.reason
-    this.methods.onclose.forEach((f) => {
+    this.methods.get("onclose").forEach((f) => {
       if (typeof f !== "function") {
         throw new Error("Argument is not a function, can't call it!");
       } else {
@@ -101,7 +119,7 @@ export default class Socket {
   }
 
   static triggerError(event) {
-    this.methods.onerror.forEach((f) => {
+    this.methods.get("onerror").forEach((f) => {
       if (typeof f !== "function") {
         throw new Error("Argument is not a function, can't call it!");
       } else {
@@ -112,20 +130,35 @@ export default class Socket {
     });
   }
 
-  static triggerMessage(event) {
-    this.methods.onmessage.forEach((f) => {
+  static parseIncoming({
+    currentTarget,
+    data,
+    type,
+    origin,
+    paths,
+    ports,
+    target,
+    timeStamp,
+  }) {
+    data = JSON.parse(data);
+
+    let evt = !!data.event ? data.event.toLowerCase() : "raw";
+    console.log(evt);
+    this.methods.get(evt).forEach((f) => {
+      console.dir(f);
+
       if (typeof f !== "function") {
         throw new Error("Argument is not a function, can't call it!");
       } else {
-        if (event.target === this.connection) {
-          f(event.data, event.type, event.timeStamp);
+        if (target === this.connection) {
+          f(data, type, timeStamp);
         }
       }
     });
   }
 
   static triggerOpen(event) {
-    this.methods.onopen.forEach((f) => {
+    this.methods.get("onopen").forEach((f) => {
       if (typeof f !== "function") {
         throw new Error("Argument is not a function, can't call it!");
       } else {
@@ -143,17 +176,28 @@ export default class Socket {
         "The second arguments must be a function to call on event."
       );
     }
-    if (ev === "close") {
-      this.methods.onclose.push(cb);
-    } else if (ev === "open") {
-      this.methods.onopen.push(cb);
-    } else if (ev === "error") {
-      this.methods.onerror.push(cb);
-    } else if (ev === "message") {
-      this.methods.onmessage.push(cb);
-    } else {
-      return;
+
+    let to;
+
+    switch (ev) {
+      case "close":
+        to = "onclose";
+        break;
+      case "open":
+        to = "onopen";
+        break;
+      case "sub":
+        to = "sub";
+        break;
+      default:
+        to = "raw";
     }
+
+    if (this.methods.has(to)) {
+      this.methods.get(to).add(cb);
+    }
+
+    return;
   }
 
   reconnect() {
@@ -173,9 +217,10 @@ export default class Socket {
 
   send(data) {
     if (typeof data === "string") {
-      this.connection.send(data);
+      return this.connection.send(data);
     }
     if (Array.isArray(data)) {
+      return this.connection.send(JSON.stringify({ data: data }));
     }
   }
 }
