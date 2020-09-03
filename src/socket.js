@@ -146,6 +146,7 @@ export default class Socket {
     console.log(evt);
     this.methods.get(evt).forEach((f) => {
       console.dir(f);
+
       if (typeof f !== "function") {
         throw new Error("Argument is not a function, can't call it!");
       } else {

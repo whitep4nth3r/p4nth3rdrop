@@ -9,7 +9,7 @@ import emotes from "./emotes";
 import utils from "./utils";
 import UserManager from "./UserManager";
 
-const socket = new Socket("ws://localhost:5000", { reconnect: true });
+const socket = new Socket("ws://localhost:8999", { reconnect: true });
 
 socket.on("close", () => {
   console.log("closed");
@@ -35,10 +35,17 @@ export default function Sketch(p5) {
   const userManager = new UserManager();
   let trailing = false;
 
+
   socket.on("sub", async (data) => {
     console.log(data);
-    bigDropUser(data.subscriberAvatarUrl);
-  });
+
+      bigDropUser(data.subscriberAvatarUrl);
+      rain(
+        utils.getRandomSizedPantherEmotes(),
+        config.drops["!rain"].emoteMultiplier,
+        config.drops["!rain"].velocities
+      );
+    });
 
   const queueDrop = (image, velocity) => {
     if (drops.length <= config.maxVisibleDrops) {
@@ -94,72 +101,6 @@ export default function Sketch(p5) {
   client.on("raided", (channel, username, viewers) => {
     eventRain(viewers);
   });
-
-  client.on("anongiftpaidupgrade", async (channel, username, userstate) => {
-    dropUser(userstate["user-id"], true);
-    rain(
-      utils.getRandomSizedPantherEmotes(),
-      config.drops["!rain"].emoteMultiplier,
-      config.drops["!rain"].velocities
-    );
-  });
-
-  client.on("giftpaidupgrade", async (channel, username, sender, userstate) => {
-    dropUser(userstate["user-id"], true);
-    rain(
-      utils.getRandomSizedPantherEmotes(),
-      config.drops["!rain"].emoteMultiplier,
-      config.drops["!rain"].velocities
-    );
-  });
-
-  client.on(
-    "resub",
-    async (channel, username, months, message, userstate, methods) => {
-      dropUser(userstate["user-id"], true);
-      rain(
-        utils.getRandomSizedPantherEmotes(),
-        config.drops["!rain"].emoteMultiplier,
-        config.drops["!rain"].velocities
-      );
-    }
-  );
-
-  client.on(
-    "submysterygift",
-    async (channel, username, numbOfSubs, methods, userstate) => {
-      dropUser(userstate["user-id"], true);
-      rain(
-        utils.getRandomSizedPantherEmotes(),
-        config.drops["!rain"].emoteMultiplier,
-        config.drops["!rain"].velocities
-      );
-    }
-  );
-
-  client.on(
-    "subgift",
-    async (channel, username, streakMonths, recipient, methods, userstate) => {
-      dropUser(userstate["user-id"], true);
-      rain(
-        utils.getRandomSizedPantherEmotes(),
-        config.drops["!rain"].emoteMultiplier,
-        config.drops["!rain"].velocities
-      );
-    }
-  );
-
-  client.on(
-    "subscription",
-    async (channel, username, method, message, userstate) => {
-      dropUser(userstate["user-id"], true);
-      rain(
-        utils.getRandomSizedPantherEmotes(),
-        config.drops["!rain"].emoteMultiplier,
-        config.drops["!rain"].velocities
-      );
-    }
-  );
 
   client.on("message", async (channel, tags, message, self) => {
     if (tags.username === config.broadcaster.username) {
@@ -223,17 +164,15 @@ export default function Sketch(p5) {
     }
   });
 
-  const bigDropUser = async (incoming) => {
-    const _image = incoming;
-    const _clipImage = clipImageBig;
-
-    const image = await imageManager.getImage(_image);
-    const clip = await imageManager.getImage(_clipImage);
+  const bigDropUser = async (imgUrl) => {
+    const image = await imageManager.getImage(imgUrl);
+    const clip = await imageManager.getImage(clipImageBig);
 
     image.mask(clip);
     queueDrop(image, config.drops["!drop"].velocities);
   };
 
+  //TODO - receive event from mainframe
   const dropUser = async (userId, big = false) => {
     const user = await userManager.getUser(userId);
 
