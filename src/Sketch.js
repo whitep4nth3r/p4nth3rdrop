@@ -7,7 +7,6 @@ import ImageManager from "./ImageManager";
 import config from "./config";
 import emotes from "./emotes";
 import utils from "./utils";
-import UserManager from "./UserManager";
 
 const socket = new Socket(process.env.REACT_APP_MAINFRAME_WEBSOCKET, {
   reconnect: true,
@@ -17,6 +16,7 @@ socket.on("close", () => {
   console.log("closed");
 });
 
+// soon this will be deprecated
 const client = new tmi.Client({
   connection: {
     secure: true,
@@ -34,7 +34,6 @@ export default function Sketch(p5) {
   let drops = [];
   let dropQueue = [];
   const imageManager = new ImageManager(p5);
-  const userManager = new UserManager();
   let trailing = false;
 
   socket.on("sub", async (data) => {
@@ -44,6 +43,10 @@ export default function Sketch(p5) {
       config.drops["!rain"].emoteMultiplier,
       config.drops["!rain"].velocities
     );
+  });
+
+  socket.on("dropuser", async (data) => {
+    dropUser(data.data.logoUrl);
   });
 
   const queueDrop = (image, velocity) => {
@@ -103,7 +106,6 @@ export default function Sketch(p5) {
 
   client.on("message", async (channel, tags, message, self) => {
     if (tags.username === config.broadcaster.username) {
-      // dropUser('469006291', true);
       if (message === config.broadcaster.commands.startTrail)
         return (trailing = true);
       else if (message === config.broadcaster.commands.endTrail)
@@ -135,9 +137,7 @@ export default function Sketch(p5) {
         const imgSize =
           command === "!bigdrop" ? emotes.sizes[2] : emotes.sizes[1];
 
-        if (args[0] === "me") {
-          dropUser(tags["user-id"], false);
-        } else if (tags.emotes) {
+        if (tags.emotes) {
           const emoteIds = Object.keys(tags.emotes);
           // const emoteId = p5.random(emoteIds);
           emoteIds.forEach(async (emoteId) => {
@@ -171,22 +171,29 @@ export default function Sketch(p5) {
     queueDrop(image, config.drops["!drop"].velocities);
   };
 
-  //TODO - receive event from mainframe
-  const dropUser = async (userId, big = false) => {
-    const user = await userManager.getUser(userId);
+  const dropUser = async (imgUrl) => {
+    const _image = imgUrl.replace("300x300", "50x50");
+    const image = await imageManager.getImage(_image);
+    const clip = await imageManager.getImage(clipImage);
 
-    if (Date.now() - new Date(user.created_at) >= config.minAccountAge) {
-      // TODO: make sure this sizing doesn't break...
-      const _image = big ? user.logo : user.logo.replace("300x300", "50x50");
-      const _clipImage = big ? clipImageBig : clipImage;
-
-      const image = await imageManager.getImage(_image);
-      const clip = await imageManager.getImage(_clipImage);
-
-      image.mask(clip);
-      queueDrop(image, config.drops["!drop"].velocities);
-    }
+    image.mask(clip);
+    queueDrop(image, config.drops["!drop"].velocities);
   };
+
+  //TODO - receive event from mainframe
+  // const oldDropUser = async (userId, big = false) => {
+  //   if (Date.now() - new Date(user.created_at) >= config.minAccountAge) {
+  //     // TODO: make sure this sizing doesn't break...
+  //     const _image = big ? user.logo : user.logo.replace("300x300", "50x50");
+  //     const _clipImage = big ? clipImageBig : clipImage;
+
+  //     const image = await imageManager.getImage(_image);
+  //     const clip = await imageManager.getImage(_clipImage);
+
+  //     image.mask(clip);
+  //     queueDrop(image, config.drops["!drop"].velocities);
+  //   }
+  // };
 
   p5.setup = async () => {
     p5.frameRate(60);
@@ -194,7 +201,6 @@ export default function Sketch(p5) {
 
     if (config.test) {
       // not added to queue for testing
-      dropUser("469006291", true);
       const images = await Promise.all(
         utils
           .getPantherEmotes(emotes.sizes[1])
