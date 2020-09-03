@@ -38,7 +38,7 @@ export default function Sketch(p5) {
   let trailing = false;
 
   socket.on("sub", async (data) => {
-    bigDropUser(data.subscriberAvatarUrl);
+    bigDropUser(data.data.logoUrl);
     rain(
       utils.getRandomSizedPantherEmotes(),
       config.drops["!rain"].emoteMultiplier,
