@@ -18,7 +18,7 @@ export default {
       emoteMultiplier: 1,
       velocities: {
         min: Math.floor(Math.random() * 5) + 3,
-        max: Math.floor(Math.random() * 7) + 5,
+        max: Math.floor(Math.random() * 5) + 7,
       },
       strategy: 'drop',
     },
@@ -26,7 +26,7 @@ export default {
       emoteMultiplier: 1,
       velocities: {
         min: Math.floor(Math.random() * 5) + 3,
-        max: Math.floor(Math.random() * 7) + 5,
+        max: Math.floor(Math.random() * 5) + 7,
       },
       strategy: 'drop',
     },
@@ -34,7 +34,7 @@ export default {
       emoteMultiplier: 15,
       velocities: {
         min: Math.floor(Math.random() * 5) + 3,
-        max: Math.floor(Math.random() * 7) + 5,
+        max: Math.floor(Math.random() * 5) + 7,
       },
       strategy: 'dropSpecificSizedPanthers',
       size: emotes.sizes[1],
@@ -42,24 +42,24 @@ export default {
     '!blizzard': {
       emoteMultiplier: 15,
       velocities: {
-        min: Math.floor(Math.random() * 25) + 20,
-        max: Math.floor(Math.random() * 30) + 25,
+        min: Math.floor(Math.random() * 6) + 20,
+        max: Math.floor(Math.random() * 6) + 25,
       },
       strategy: 'dropRandomSizedPanthers',
     },
     '!hail': {
       emoteMultiplier: 15,
       velocities: {
-        min: Math.floor(Math.random() * 7) + 4,
-        max: Math.floor(Math.random() * 10) + 7,
+        min: Math.floor(Math.random() * 4) + 4,
+        max: Math.floor(Math.random() * 4) + 7,
       },
       strategy: 'dropRandomSizedPanthers',
     },
     '!shower': {
       emoteMultiplier: 5,
       velocities: {
-        min: Math.floor(Math.random() * 4) + 2,
-        max: Math.floor(Math.random() * 6) + 4,
+        min: Math.floor(Math.random() * 3) + 2,
+        max: Math.floor(Math.random() * 4) + 4,
       },
       strategy: 'dropSpecificSizedPanthers',
       size: emotes.sizes[1],
