@@ -36,6 +36,38 @@ export default function Sketch(p5) {
   const imageManager = new ImageManager(p5);
   let trailing = false;
 
+  const strategies = {
+    dropRandomSizedPanthers: (dropConfig) => {
+      rain(
+        utils.getRandomSizedPantherEmotes(),
+        dropConfig.emoteMultiplier,
+        dropConfig.velocities
+      );
+    },
+    dropSpecificSizedPanthers: (dropConfig) => {
+      rain(
+        utils.getPantherEmotes(dropConfig.size),
+        dropConfig.emoteMultiplier,
+        dropConfig.velocities
+      );
+    },
+    //TODO - drop emotes
+    // drop: async (dropConfig, command, args) => {
+    //   const imgSize =
+    //     command === "!bigdrop" ? emotes.sizes[2] : emotes.sizes[1];
+
+    //   if (tags.emotes) {
+    //     const emoteIds = Object.keys(tags.emotes);
+    //     // const emoteId = p5.random(emoteIds);
+    //     emoteIds.forEach(async (emoteId) => {
+    //       const imageUrl = `${emotes.baseUrl}${emoteId}/${imgSize}`;
+    //       const image = await imageManager.getImage(imageUrl);
+    //       queueDrop(image, dropConfig.velocities);
+    //     });
+    //   }
+    // },
+  };
+
   socket.on("sub", async (data) => {
     bigDropUser(data.data.logoUrl);
     rain(
@@ -47,6 +79,15 @@ export default function Sketch(p5) {
 
   socket.on("dropuser", async (data) => {
     dropUser(data.data.logoUrl);
+  });
+
+  socket.on("weather", async (data) => {
+    const dropConfig = config.drops[data.data.weatherEvent];
+    if (dropConfig) {
+      strategies[dropConfig.strategy](dropConfig, data.data.weatherEvent);
+    } else {
+      // console.warn('Did not recognise ', command)
+    }
   });
 
   const queueDrop = (image, velocity) => {
@@ -117,50 +158,6 @@ export default function Sketch(p5) {
         }
       }
     }
-
-    const strategies = {
-      dropRandomSizedPanthers: (dropConfig) => {
-        rain(
-          utils.getRandomSizedPantherEmotes(),
-          dropConfig.emoteMultiplier,
-          dropConfig.velocities
-        );
-      },
-      dropSpecificSizedPanthers: (dropConfig) => {
-        rain(
-          utils.getPantherEmotes(dropConfig.size),
-          dropConfig.emoteMultiplier,
-          dropConfig.velocities
-        );
-      },
-      drop: async (dropConfig, command, args) => {
-        const imgSize =
-          command === "!bigdrop" ? emotes.sizes[2] : emotes.sizes[1];
-
-        if (tags.emotes) {
-          const emoteIds = Object.keys(tags.emotes);
-          // const emoteId = p5.random(emoteIds);
-          emoteIds.forEach(async (emoteId) => {
-            const imageUrl = `${emotes.baseUrl}${emoteId}/${imgSize}`;
-            const image = await imageManager.getImage(imageUrl);
-            queueDrop(image, dropConfig.velocities);
-          });
-        }
-      },
-    };
-
-    const command = utils.getCommandFromMessage(message);
-    const dropConfig = config.drops[command];
-
-    if (dropConfig) {
-      strategies[dropConfig.strategy](
-        dropConfig,
-        command,
-        utils.getRestOfMessage(message)
-      );
-    } else {
-      // console.warn('Did not recognise ', command)
-    }
   });
 
   const bigDropUser = async (imgUrl) => {
@@ -179,21 +176,6 @@ export default function Sketch(p5) {
     image.mask(clip);
     queueDrop(image, config.drops["!drop"].velocities);
   };
-
-  //TODO - receive event from mainframe
-  // const oldDropUser = async (userId, big = false) => {
-  //   if (Date.now() - new Date(user.created_at) >= config.minAccountAge) {
-  //     // TODO: make sure this sizing doesn't break...
-  //     const _image = big ? user.logo : user.logo.replace("300x300", "50x50");
-  //     const _clipImage = big ? clipImageBig : clipImage;
-
-  //     const image = await imageManager.getImage(_image);
-  //     const clip = await imageManager.getImage(_clipImage);
-
-  //     image.mask(clip);
-  //     queueDrop(image, config.drops["!drop"].velocities);
-  //   }
-  // };
 
   p5.setup = async () => {
     p5.frameRate(60);

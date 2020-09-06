@@ -22,6 +22,7 @@ export default class Socket {
     this.methods.set("raided", new Set());
     this.methods.set("message", new Set());
     this.methods.set("dropuser", new Set());
+    this.methods.set("weather", new Set());
   }
 
   static createConnection() {
@@ -180,6 +181,9 @@ export default class Socket {
         break;
       case "dropuser":
         to = "dropuser";
+        break;
+      case "weather":
+        to = "weather";
         break;
       default:
         to = "raw";
