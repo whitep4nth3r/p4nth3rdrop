@@ -51,21 +51,6 @@ export default function Sketch(p5) {
         dropConfig.velocities
       );
     },
-    //TODO - drop emotes
-    // drop: async (dropConfig, command, args) => {
-    //   const imgSize =
-    //     command === "!bigdrop" ? emotes.sizes[2] : emotes.sizes[1];
-
-    //   if (tags.emotes) {
-    //     const emoteIds = Object.keys(tags.emotes);
-    //     // const emoteId = p5.random(emoteIds);
-    //     emoteIds.forEach(async (emoteId) => {
-    //       const imageUrl = `${emotes.baseUrl}${emoteId}/${imgSize}`;
-    //       const image = await imageManager.getImage(imageUrl);
-    //       queueDrop(image, dropConfig.velocities);
-    //     });
-    //   }
-    // },
   };
 
   socket.on("sub", async (data) => {
@@ -81,12 +66,20 @@ export default function Sketch(p5) {
     dropUser(data.data.logoUrl);
   });
 
+  socket.on("dropemotes", async (data) => {
+    const dropConfig = config.drops[data.data.dropType];
+    if (dropConfig) {
+      data.data.emoteUrls.forEach(async (emoteUrl) => {
+        const image = await imageManager.getImage(emoteUrl);
+        queueDrop(image, dropConfig.velocities);
+      });
+    }
+  });
+
   socket.on("weather", async (data) => {
     const dropConfig = config.drops[data.data.weatherEvent];
     if (dropConfig) {
       strategies[dropConfig.strategy](dropConfig, data.data.weatherEvent);
-    } else {
-      // console.warn('Did not recognise ', command)
     }
   });
 
