@@ -80,5 +80,6 @@ export default {
     'codingwithluce',
     'madhousesteve',
     'melkeydev',
+    'rawrsatbeards',
   ],
 };
