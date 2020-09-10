@@ -26,7 +26,7 @@ export default class Socket {
     this.methods.set("weather", new Set());
     this.methods.set("raid", new Set());
     this.methods.set("cheer", new Set());
-    this.methods.set("specialuserrain", new Set());
+    this.methods.set("specialuserjoin", new Set());
   }
 
   static createConnection() {
@@ -195,8 +195,8 @@ export default class Socket {
       case "raid":
         to = "raid";
         break;
-      case "specialuserrain":
-        to = "specialuserrain";
+      case "specialuserjoin":
+        to = "specialuserjoin";
         break;
       case "weather":
         to = "weather";

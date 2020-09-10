@@ -96,7 +96,7 @@ export default function Sketch(p5) {
     eventRain(dropBits);
   });
 
-  socket.on("specialuserrain", async (data) => {
+  socket.on("specialuserjoin", async (data) => {
     specialUserEvent(data.data.username);
   });
 
