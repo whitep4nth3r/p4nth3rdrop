@@ -96,6 +96,10 @@ export default function Sketch(p5) {
     eventRain(dropBits);
   });
 
+  socket.on("specialuserrain", async (data) => {
+    specialUserEvent(data.data.username);
+  });
+
   const queueDrop = (image, velocity) => {
     if (drops.length <= config.maxVisibleDrops) {
       drops.push(new Drop(p5, image, velocity));
@@ -131,12 +135,6 @@ export default function Sketch(p5) {
       config.drops["!rain"].velocities
     );
   };
-
-  client.on("join", (channel, username, self) => {
-    if (config.specialUsers.includes(username)) {
-      specialUserEvent(username);
-    }
-  });
 
   client.on("message", async (channel, tags, message, self) => {
     if (tags.username === config.broadcaster.username) {
