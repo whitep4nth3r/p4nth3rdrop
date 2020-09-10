@@ -27,6 +27,7 @@ export default class Socket {
     this.methods.set("raid", new Set());
     this.methods.set("cheer", new Set());
     this.methods.set("specialuserjoin", new Set());
+    this.methods.set("settrailing", new Set());
   }
 
   static createConnection() {
@@ -182,6 +183,9 @@ export default class Socket {
         break;
       case "cheer":
         to = "cheer";
+        break;
+      case "settrailing":
+        to = "settrailing";
         break;
       case "sub":
         to = "sub";

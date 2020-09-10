@@ -1,5 +1,4 @@
 import Socket from "./socket";
-import tmi from "tmi.js";
 import clipImage from "./white_circle.png";
 import clipImageBig from "./white_circle_big.png";
 import Drop from "./Drop";
@@ -15,17 +14,6 @@ const socket = new Socket(process.env.REACT_APP_MAINFRAME_WEBSOCKET, {
 socket.on("close", () => {
   console.log("closed");
 });
-
-// soon this will be deprecated
-const client = new tmi.Client({
-  connection: {
-    secure: true,
-    reconnect: true,
-  },
-  channels: [config.broadcaster.username],
-});
-
-client.connect();
 
 /**
  * @param {import('p5')} p5
@@ -100,6 +88,10 @@ export default function Sketch(p5) {
     specialUserEvent(data.data.username);
   });
 
+  socket.on("settrailing", async (data) => {
+    return (trailing = data.data.trailing);
+  });
+
   const queueDrop = (image, velocity) => {
     if (drops.length <= config.maxVisibleDrops) {
       drops.push(new Drop(p5, image, velocity));
@@ -135,21 +127,6 @@ export default function Sketch(p5) {
       config.drops["!rain"].velocities
     );
   };
-
-  client.on("message", async (channel, tags, message, self) => {
-    if (tags.username === config.broadcaster.username) {
-      if (message === config.broadcaster.commands.startTrail)
-        return (trailing = true);
-      else if (message === config.broadcaster.commands.endTrail)
-        return (trailing = false);
-      else if (message.match(/^!drop-timeout/)) {
-        const timeout = Number(message.split(" ")[1]);
-        if (!isNaN(timeout)) {
-          config.dropTimeout = timeout * 1000;
-        }
-      }
-    }
-  });
 
   const bigDropUser = async (imgUrl) => {
     const image = await imageManager.getImage(imgUrl);

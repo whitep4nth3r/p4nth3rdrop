@@ -3,16 +3,10 @@ import emotes from "./emotes";
 export default {
   broadcaster: {
     username: "whitep4nth3r",
-    commands: {
-      endTrail: "!end-trail",
-      startTrail: "!start-trail",
-    },
   },
   clientId: process.env.REACT_APP_CLIENT_ID,
-  dropTimeout: 10_000,
   maxVisibleDrops: 500,
   test: false,
-  minAccountAge: 7 * 24 * 60 * 60 * 1000,
   drops: {
     "!drop": {
       emoteMultiplier: 1,
