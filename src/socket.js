@@ -24,6 +24,8 @@ export default class Socket {
     this.methods.set("dropuser", new Set());
     this.methods.set("dropemotes", new Set());
     this.methods.set("weather", new Set());
+    this.methods.set("raid", new Set());
+    this.methods.set("cheer", new Set());
   }
 
   static createConnection() {
@@ -177,6 +179,9 @@ export default class Socket {
       case "open":
         to = "onopen";
         break;
+      case "cheer":
+        to = "cheer";
+        break;
       case "sub":
         to = "sub";
         break;
@@ -185,6 +190,9 @@ export default class Socket {
         break;
       case "dropemotes":
         to = "dropemotes";
+        break;
+      case "raid":
+        to = "raid";
         break;
       case "weather":
         to = "weather";

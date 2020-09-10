@@ -83,6 +83,19 @@ export default function Sketch(p5) {
     }
   });
 
+  socket.on("raid", async (data) => {
+    eventRain(data.data.raiderCount);
+  });
+
+  socket.on("cheer", async (data) => {
+    const rawBits = parseInt(data.data.bitCount, 10);
+
+    const dropBits =
+      rawBits < config.maxVisibleDrops ? rawBits : config.maxVisibleDrops;
+
+    eventRain(dropBits);
+  });
+
   const queueDrop = (image, velocity) => {
     if (drops.length <= config.maxVisibleDrops) {
       drops.push(new Drop(p5, image, velocity));
@@ -123,19 +136,6 @@ export default function Sketch(p5) {
     if (config.specialUsers.includes(username)) {
       specialUserEvent(username);
     }
-  });
-
-  client.on("cheer", (channel, userstate, message) => {
-    const bits =
-      userstate.bits < config.maxVisibleDrops
-        ? userstate.bits
-        : config.maxVisibleDrops;
-
-    eventRain(bits);
-  });
-
-  client.on("raided", (channel, username, viewers) => {
-    eventRain(viewers);
   });
 
   client.on("message", async (channel, tags, message, self) => {
