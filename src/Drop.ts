@@ -1,12 +1,8 @@
 import P5, { Vector } from "p5";
-import config from "./config";
+import { config } from "./config";
+import { Velocity, DropInstance } from "./types";
 
-interface Velocity {
-  min: number;
-  max: number;
-}
-
-export default class Drop {
+export default class Drop implements DropInstance {
   p5: P5;
   image: P5.Image;
   vector: P5.Vector;
@@ -67,8 +63,6 @@ export default class Drop {
 
   update() {
     const { position, vector, p5, image, landed } = this;
-
-    console.log(vector);
 
     if (landed) return;
 

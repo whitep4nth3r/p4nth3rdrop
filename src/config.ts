@@ -1,6 +1,7 @@
-import emotes from "./emotes";
+import { emotes } from "./emotes";
+import { Config } from "./types";
 
-export default {
+const config: Config = {
   maxVisibleDrops: 500,
   test: false,
   dropTimeout: 10_000,
@@ -28,7 +29,7 @@ export default {
         max: 7,
       },
       strategy: "dropSpecificSizedPanthers",
-      size: emotes.sizes[1],
+      size: emotes.config.sizes[1],
     },
     "!blizzard": {
       emoteMultiplier: 15,
@@ -53,7 +54,7 @@ export default {
         max: 6,
       },
       strategy: "dropSpecificSizedPanthers",
-      size: emotes.sizes[1],
+      size: emotes.config.sizes[1],
     },
     "!snow": {
       emoteMultiplier: 10,
@@ -62,7 +63,9 @@ export default {
         max: 2,
       },
       strategy: "dropSpecificSizedPanthers",
-      size: emotes.sizes[0],
+      size: emotes.config.sizes[0],
     },
   },
 };
+
+export { config };
