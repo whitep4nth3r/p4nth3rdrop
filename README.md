@@ -1,6 +1,9 @@
 # P4nth3rDrop!
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 _Because everyone needs an interactive Twitch game, right?_
@@ -23,7 +26,7 @@ _Because everyone needs an interactive Twitch game, right?_
 - !end-trail
 ```
 
-## Events
+# Events
 
 ### Raids
 
@@ -35,37 +38,26 @@ On a cheer, `n` panthers from the emote selection (where `n` is the number of bi
 
 ---
 
-## Want to use P4nth3rDrop?
+## P4nth3rDrop receives events from the [p4nth3rb0t-mainframe](https://github.com/whitep4nth3r/p4nth3rb0t-mainframe)
+
+## To use P4nth3rDrop you will also need to use your own application that pushes events from twitch via websockets, or use the mainframe as well
 
 ### 1. Fork the repo
 
-### 2. Change the `broadcaster` property in `config.js` to your own channel name
-
-```javascript
-/// config.js
-
-export default {
-  broadcaster: 'your_channel_name',
-  ...
-}
-```
-
-### 3. Create a new Twitch application (or use an existing) in the developer console and grab your Client ID
-
-### 4. Create a .env file in the root (it has been added to .gitignore so won't show up in version history)
+### 2. Create a .env file in the root (it has been added to .gitignore so won't show up in version history)
 
 ```bash
 cd /path/to/repo
 touch .env
 ```
 
-### 4. Add the following to the `.env` file
+### 3. Add the following to the `.env` file
 
 ```javascript
-REACT_APP_CLIENT_ID: your_twitch_client_id;
+REACT_APP_MAINFRAME_WEBSOCKET: your_websocket_address;
 ```
 
-### 5. When deploying this application, make sure to add the `REACT_APP_CLIENT_ID` environment variable to the production environment.
+### 4. When deploying this application, make sure to add the `REACT_APP_MAINFRAME_WEBSOCKET` environment variable to the production environment.
 
 ---
 
@@ -83,12 +75,16 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="http://rhg.dev"><img src="https://avatars1.githubusercontent.com/u/6187256?v=4" width="100px;" alt=""/><br /><sub><b>Ryan Haskell-Glatz</b></sub></a><br /><a href="https://github.com/whitep4nth3r/p4nth3rdrop/commits?author=ryannhg" title="Code">💻</a></td>
+
     <td align="center"><a href="https://twitch.tv/rawrsatbeards"><img src="https://avatars0.githubusercontent.com/u/70729123?v=4" width="100px;" alt=""/><br /><sub><b>rawrsatbeards</b></sub></a><br /><a href="#ideas-rawrsatbeards" title="Ideas, Planning, & Feedback">🤔</a></td>
+
+    <td align="center"><a href="https://github.com/gigili"><img src="https://avatars0.githubusercontent.com/u/2153382?v=4" width="100px;" alt=""/><br /><sub><b>Igor Ilic</b></sub></a><br /><a href="#ideas-gigili" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
