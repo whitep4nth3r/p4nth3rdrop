@@ -1,12 +1,22 @@
-import { Vector } from 'p5';
-import config from './config';
+import P5, { Vector } from "p5";
+import config from "./config";
+
+interface Velocity {
+  min: number;
+  max: number;
+}
 
 export default class Drop {
-  /**
-   * @param {import('p5')} p5
-   * @param {import('p5').Image} image
-   */
-  constructor(p5, image, velocity) {
+  p5: P5;
+  image: P5.Image;
+  vector: P5.Vector;
+  landed: boolean;
+  wobble: number;
+  position: P5.Vector;
+  landTime: number;
+
+  constructor(p5: P5, image: P5.Image, incomingVelocity: Velocity) {
+    this.landTime = 0;
     this.p5 = p5;
     this.image = image;
     this.landed = false;
@@ -16,14 +26,13 @@ export default class Drop {
       -100
     );
 
-    this.velocity = velocity;
-    this.velocity = Vector.fromAngle(
+    this.vector = Vector.fromAngle(
       p5.random(p5.PI * 0.1, p5.PI * 0.9),
-      p5.random(this.velocity.min, this.velocity.max)
+      p5.random(incomingVelocity.min, incomingVelocity.max)
     );
   }
 
-  draw(now) {
+  draw(now: number) {
     let alpha = 1;
     this.p5.push();
     if (this.landed) {
@@ -32,6 +41,8 @@ export default class Drop {
         diff >= config.dropTimeout
           ? 0
           : this.p5.map(diff, config.dropTimeout, 0, 0, 1);
+      // @ts-ignore
+      // Type not available from @types/p5 currently
       this.p5.drawingContext.globalAlpha = alpha;
     }
     // translate to the point we want to rotate around, which is the top center of the drop
@@ -55,13 +66,20 @@ export default class Drop {
   }
 
   update() {
-    const { position, velocity, p5, image, landed } = this;
+    const { position, vector, p5, image, landed } = this;
+
+    console.log(vector);
+
     if (landed) return;
-    position.add(velocity);
+
+    position.add(vector);
+
     if (position.x <= 0) {
-      velocity.mult(-1, 1);
+      // @ts-ignore
+      vector.mult(p5.createVector(-1, 1));
     } else if (position.x + image.width >= p5.windowWidth) {
-      velocity.mult(-1, 1);
+      // @ts-ignore
+      vector.mult(p5.createVector(-1, 1));
       position.x = p5.windowWidth - image.width;
     }
 
