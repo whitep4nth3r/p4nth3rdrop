@@ -2,7 +2,7 @@ import React from "react";
 import P5 from "p5";
 import { Sketch } from "./Sketch";
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line
 const instance = new P5(Sketch);
 
 const PantherDrop = () => {
