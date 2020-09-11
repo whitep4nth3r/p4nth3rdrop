@@ -6,7 +6,7 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-_Because everyone needs an interactive Twitch game, right?_
+_An interactive panther-based drop game for your stream overlay._
 
 ## Chat Commands
 
