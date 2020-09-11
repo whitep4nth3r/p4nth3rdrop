@@ -26,7 +26,7 @@ _Because everyone needs an interactive Twitch game, right?_
 - !end-trail
 ```
 
-## Events
+# Events
 
 ### Raids
 
