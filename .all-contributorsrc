@@ -13,10 +13,19 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "gigili",
+      "name": "Igor Ilic",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2153382?v=4",
+      "profile": "https://github.com/gigili",
+      "contributions": [
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
-  "projectName": "P4nth3rDrop",
+  "projectName": "p4nth3rdrop",
   "projectOwner": "whitep4nth3r",
   "repoType": "github",
   "repoHost": "https://github.com",
