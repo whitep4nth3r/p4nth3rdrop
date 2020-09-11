@@ -3,6 +3,7 @@ import emotes from "./emotes";
 export default {
   maxVisibleDrops: 500,
   test: false,
+  dropTimeout: 10_000,
   drops: {
     "!drop": {
       emoteMultiplier: 1,
