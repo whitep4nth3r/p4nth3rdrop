@@ -15,12 +15,22 @@
       ]
     },
     {
+      "login": "LuceCarter",
+      "name": "Luce Carter",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/6980734?v=4",
+      "profile": "http://lucecarter.co.uk",
+      "contributions": [
+        "ideas"
+      ]
+    },
+    {
       "login": "rawrsatbeards",
       "name": "rawrsatbeards",
       "avatar_url": "https://avatars0.githubusercontent.com/u/70729123?v=4",
       "profile": "https://twitch.tv/rawrsatbeards",
       "contributions": [
-        "ideas"
+        "ideas",
+        "code"
       ]
     },
     {

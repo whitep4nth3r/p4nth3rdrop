@@ -76,6 +76,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="http://rhg.dev"><img src="https://avatars1.githubusercontent.com/u/6187256?v=4" width="100px;" alt=""/><br /><sub><b>Ryan Haskell-Glatz</b></sub></a><br /><a href="https://github.com/whitep4nth3r/p4nth3rdrop/commits?author=ryannhg" title="Code">💻</a></td>
 
+    <td align="center"><a href="http://lucecarter.co.uk"><img src="https://avatars2.githubusercontent.com/u/6980734?v=4" width="100px;" alt=""/><br /><sub><b>Luce Carter</b></sub></a><br /><a href="#ideas-LuceCarter" title="Ideas, Planning, & Feedback">🤔</a></td>
+
     <td align="center"><a href="https://twitch.tv/rawrsatbeards"><img src="https://avatars0.githubusercontent.com/u/70729123?v=4" width="100px;" alt=""/><br /><sub><b>rawrsatbeards</b></sub></a><br /><a href="#ideas-rawrsatbeards" title="Ideas, Planning, & Feedback">🤔</a></td>
 
     <td align="center"><a href="https://github.com/gigili"><img src="https://avatars0.githubusercontent.com/u/2153382?v=4" width="100px;" alt=""/><br /><sub><b>Igor Ilic</b></sub></a><br /><a href="#ideas-gigili" title="Ideas, Planning, & Feedback">🤔</a></td>
