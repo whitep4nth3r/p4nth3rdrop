@@ -1,10 +1,6 @@
 import emotes from "./emotes";
 
 export default {
-  broadcaster: {
-    username: "whitep4nth3r",
-  },
-  clientId: process.env.REACT_APP_CLIENT_ID,
   maxVisibleDrops: 500,
   test: false,
   drops: {
