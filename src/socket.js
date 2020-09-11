@@ -18,8 +18,6 @@ export default class Socket {
     // These are the only events we care about in p4nth3rdrop
     this.methods.set("sub", new Set());
     this.methods.set("join", new Set());
-    this.methods.set("cheer", new Set());
-    this.methods.set("raided", new Set());
     this.methods.set("message", new Set());
     this.methods.set("dropuser", new Set());
     this.methods.set("dropemotes", new Set());
