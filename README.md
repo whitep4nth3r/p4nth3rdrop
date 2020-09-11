@@ -92,11 +92,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </td>
     <td align="center">
       <a href="https://twitch.tv/rawrsatbeards">
-        <img src="https://avatars0.githubusercontent.com/u/70729123?v=4" width="100px;" alt=""/>
+        <img src="https://avatars1.githubusercontent.com/u/12928252?v=4" width="100px;" alt=""/>
         <br />
-        <sub><b>rawrsatbeards</b></sub>
+        <sub><b>isabellabrookes</b></sub>
       </a><br />
-    <a href="#ideas-rawrsatbeards" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <a href="#ideas-isabellabrookes" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center">
       <a href="https://github.com/gigili">
         <img src="https://avatars0.githubusercontent.com/u/2153382?v=4" width="100px;" alt=""/>
