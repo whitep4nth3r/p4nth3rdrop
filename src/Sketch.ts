@@ -1,4 +1,4 @@
-import Socket from "./socket";
+import socketIOClient from "socket.io-client";
 import clipImage from "./white_circle.png";
 import clipImageBig from "./white_circle_big.png";
 import Drop from "./Drop";
@@ -7,24 +7,18 @@ import { config } from "./config";
 import { emotes } from "./emotes";
 import utils from "./utils";
 import P5 from "p5";
-import { Velocity, DropInstance, DropConfig } from "./types";
+import { Velocity, DropInstance, DropConfig, Strategies } from "./types";
 
-const socket = new Socket(process.env.REACT_APP_MAINFRAME_WEBSOCKET, {
-  reconnect: true,
-});
+const socket = socketIOClient("ws://localhost:8999");
 
-socket.on("close", () => {
-  console.log("closed");
-});
-
-export default function Sketch(p5: P5) {
+function Sketch(p5: P5) {
   let drops: any[] = [];
   let dropQueue: DropInstance[] = [];
 
   const imageManager = new ImageManager(p5);
   let trailing = false;
 
-  const strategies = {
+  const strategies: Strategies = {
     dropRandomSizedPanthers: (dropConfig: DropConfig) => {
       rain(
         utils.getRandomSizedPantherEmotes(),
@@ -34,7 +28,7 @@ export default function Sketch(p5: P5) {
     },
     dropSpecificSizedPanthers: (dropConfig: DropConfig) => {
       rain(
-        utils.getPantherEmotes(dropConfig.size),
+        utils.getPantherEmotes(dropConfig.size as string),
         dropConfig.emoteMultiplier,
         dropConfig.velocities
       );
@@ -57,7 +51,7 @@ export default function Sketch(p5: P5) {
   socket.on("dropemotes", async (data: any) => {
     const dropConfig = config.drops[data.data.dropType];
     if (dropConfig) {
-      data.data.emoteUrls.forEach(async (emoteUrl) => {
+      data.data.emoteUrls.forEach(async (emoteUrl: string) => {
         const image = await imageManager.getImage(emoteUrl);
         queueDrop(image, dropConfig.velocities);
       });
@@ -67,7 +61,7 @@ export default function Sketch(p5: P5) {
   socket.on("weather", async (data: any) => {
     const dropConfig = config.drops[data.data.weatherEvent];
     if (dropConfig) {
-      strategies[dropConfig.strategy](dropConfig, data.data.weatherEvent);
+      strategies[dropConfig.strategy](dropConfig);
     }
   });
 
@@ -184,3 +178,5 @@ export default function Sketch(p5: P5) {
     }
   };
 }
+
+export { Sketch };

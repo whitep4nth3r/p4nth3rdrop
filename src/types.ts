@@ -40,4 +40,8 @@ interface Config {
   };
 }
 
-export type { Velocity, DropInstance, DropConfig, Config, Emotes };
+interface Strategies {
+  [key: string]: (dropConfig: DropConfig) => void;
+}
+
+export type { Velocity, DropInstance, DropConfig, Config, Emotes, Strategies };
