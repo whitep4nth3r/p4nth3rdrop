@@ -3,9 +3,11 @@ import clipImage from "./white_circle.png";
 import clipImageBig from "./white_circle_big.png";
 import Drop from "./Drop";
 import ImageManager from "./ImageManager";
-import config from "./config";
-import emotes from "./emotes";
+import { config } from "./config";
+import { emotes } from "./emotes";
 import utils from "./utils";
+import P5 from "p5";
+import { Velocity, DropInstance, DropConfig } from "./types";
 
 const socket = new Socket(process.env.REACT_APP_MAINFRAME_WEBSOCKET, {
   reconnect: true,
@@ -15,24 +17,22 @@ socket.on("close", () => {
   console.log("closed");
 });
 
-/**
- * @param {import('p5')} p5
- */
-export default function Sketch(p5) {
-  let drops = [];
-  let dropQueue = [];
+export default function Sketch(p5: P5) {
+  let drops: any[] = [];
+  let dropQueue: DropInstance[] = [];
+
   const imageManager = new ImageManager(p5);
   let trailing = false;
 
   const strategies = {
-    dropRandomSizedPanthers: (dropConfig) => {
+    dropRandomSizedPanthers: (dropConfig: DropConfig) => {
       rain(
         utils.getRandomSizedPantherEmotes(),
         dropConfig.emoteMultiplier,
         dropConfig.velocities
       );
     },
-    dropSpecificSizedPanthers: (dropConfig) => {
+    dropSpecificSizedPanthers: (dropConfig: DropConfig) => {
       rain(
         utils.getPantherEmotes(dropConfig.size),
         dropConfig.emoteMultiplier,
@@ -41,7 +41,7 @@ export default function Sketch(p5) {
     },
   };
 
-  socket.on("sub", async (data) => {
+  socket.on("sub", async (data: any) => {
     bigDropUser(data.data.logoUrl);
     rain(
       utils.getRandomSizedPantherEmotes(),
@@ -50,11 +50,11 @@ export default function Sketch(p5) {
     );
   });
 
-  socket.on("dropuser", async (data) => {
+  socket.on("dropuser", async (data: any) => {
     dropUser(data.data.logoUrl);
   });
 
-  socket.on("dropemotes", async (data) => {
+  socket.on("dropemotes", async (data: any) => {
     const dropConfig = config.drops[data.data.dropType];
     if (dropConfig) {
       data.data.emoteUrls.forEach(async (emoteUrl) => {
@@ -64,18 +64,18 @@ export default function Sketch(p5) {
     }
   });
 
-  socket.on("weather", async (data) => {
+  socket.on("weather", async (data: any) => {
     const dropConfig = config.drops[data.data.weatherEvent];
     if (dropConfig) {
       strategies[dropConfig.strategy](dropConfig, data.data.weatherEvent);
     }
   });
 
-  socket.on("raid", async (data) => {
+  socket.on("raid", async (data: any) => {
     eventRain(data.data.raiderCount);
   });
 
-  socket.on("cheer", async (data) => {
+  socket.on("cheer", async (data: any) => {
     const rawBits = parseInt(data.data.bitCount, 10);
 
     const dropBits =
@@ -84,15 +84,15 @@ export default function Sketch(p5) {
     eventRain(dropBits);
   });
 
-  socket.on("specialuserjoin", async (data) => {
+  socket.on("specialuserjoin", async (data: any) => {
     specialUserEvent(data.data.username);
   });
 
-  socket.on("settrailing", async (data) => {
+  socket.on("settrailing", async (data: any) => {
     return (trailing = data.data.trailing);
   });
 
-  const queueDrop = (image, velocity) => {
+  const queueDrop = (image: P5.Image, velocity: Velocity) => {
     if (drops.length <= config.maxVisibleDrops) {
       drops.push(new Drop(p5, image, velocity));
     } else {
@@ -100,7 +100,11 @@ export default function Sketch(p5) {
     }
   };
 
-  const rain = async (emotes, emoteMultiplier, velocity) => {
+  const rain = async (
+    emotes: string[],
+    emoteMultiplier: number,
+    velocity: Velocity
+  ) => {
     const images = await Promise.all(
       emotes.map((url) => imageManager.getImage(url))
     );
@@ -110,17 +114,17 @@ export default function Sketch(p5) {
     }
   };
 
-  const eventRain = (emoteCount) => {
+  const eventRain = (emoteCount: number) => {
     const emotes = [];
 
     while (emoteCount--) {
       emotes.push(p5.random(utils.getRandomSizedPantherEmotes()));
     }
 
-    rain(emotes, 1, config.drops["!rain"].velocities);
+    rain(emotes as [], 1, config.drops["!rain"].velocities);
   };
 
-  const specialUserEvent = (username) => {
+  const specialUserEvent = (username: string) => {
     rain(
       utils.getSpecialUserEmotes(username),
       5,
@@ -128,7 +132,7 @@ export default function Sketch(p5) {
     );
   };
 
-  const bigDropUser = async (imgUrl) => {
+  const bigDropUser = async (imgUrl: string) => {
     const image = await imageManager.getImage(imgUrl);
     const clip = await imageManager.getImage(clipImageBig);
 
@@ -136,7 +140,7 @@ export default function Sketch(p5) {
     queueDrop(image, config.drops["!drop"].velocities);
   };
 
-  const dropUser = async (imgUrl) => {
+  const dropUser = async (imgUrl: string) => {
     const _image = imgUrl.replace("300x300", "50x50");
     const image = await imageManager.getImage(_image);
     const clip = await imageManager.getImage(clipImage);
@@ -153,10 +157,10 @@ export default function Sketch(p5) {
       // not added to queue for testing
       const images = await Promise.all(
         utils
-          .getPantherEmotes(emotes.sizes[1])
+          .getPantherEmotes(emotes.config.sizes[1])
           .map((url) => imageManager.getImage(url))
       );
-      drops = Array.from({ length: 10 }).reduce((drops) => {
+      drops = Array.from({ length: 10 }).reduce((drops: any[]) => {
         return drops.concat(
           images.map(
             (image) => new Drop(p5, image, config.drops["!rain"].velocities)
@@ -169,7 +173,7 @@ export default function Sketch(p5) {
   p5.draw = () => {
     if (!trailing) p5.clear();
     const now = Date.now();
-    drops = drops.filter((drop) => {
+    drops = drops.filter((drop: any) => {
       drop.update();
       return !drop.draw(now);
     });
