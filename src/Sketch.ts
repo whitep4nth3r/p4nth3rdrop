@@ -1,4 +1,4 @@
-import socketIOClient from "socket.io-client";
+import Socket from "./socket";
 import clipImage from "./white_circle.png";
 import clipImageBig from "./white_circle_big.png";
 import Drop from "./Drop";
@@ -9,7 +9,13 @@ import utils from "./utils";
 import P5 from "p5";
 import { Velocity, DropInstance, DropConfig, Strategies } from "./types";
 
-const socket = socketIOClient("ws://localhost:8999");
+const socket = new Socket(process.env.REACT_APP_MAINFRAME_WEBSOCKET, {
+  reconnect: true,
+});
+
+socket.on("close", () => {
+  console.log("closed");
+});
 
 function Sketch(p5: P5) {
   let drops: any[] = [];
