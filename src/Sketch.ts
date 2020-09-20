@@ -9,15 +9,15 @@ import utils from "./utils";
 import P5 from "p5";
 import { Velocity, DropInstance, DropConfig, Strategies } from "./types";
 
-const socket = new Socket(process.env.REACT_APP_MAINFRAME_WEBSOCKET, {
-  reconnect: true,
-});
+const Sketch = (p5: P5, mainFrameUri: string) => {
+  const socket = new Socket(mainFrameUri, {
+    reconnect: true,
+  });
 
-socket.on("close", () => {
-  console.log("closed");
-});
+  socket.on("close", () => {
+    console.log("closed");
+  });
 
-function Sketch(p5: P5) {
   let drops: any[] = [];
   let dropQueue: DropInstance[] = [];
 
@@ -183,6 +183,6 @@ function Sketch(p5: P5) {
       dropQueue = dropQueue.slice(end);
     }
   };
-}
+};
 
 export { Sketch };
