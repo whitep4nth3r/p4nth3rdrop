@@ -8,6 +8,32 @@ import { emotes } from "./emotes";
 import utils from "./utils";
 import P5 from "p5";
 import { Velocity, DropInstance, DropConfig, Strategies } from "./types";
+import { Expect, Validator } from "@ryannhg/safe-json";
+import { Problem } from "@ryannhg/safe-json/dist/problem";
+
+type Fields<T> = {
+  [K in keyof T]: Validator<T[K]>;
+};
+
+type SocketEvent<T> = {
+  data: T;
+};
+
+const socketEvent = <T>(fields: Fields<T>): Validator<{ data: T }> => {
+  return Expect.object({
+    data: Expect.object(fields),
+  });
+};
+
+const attempt = <T>(
+  validator: Validator<T>,
+  data: unknown,
+  onPass: (value: T) => void
+) =>
+  validator.run(data, {
+    onPass,
+    onFail: (error) => console.error(Problem.toString(error)),
+  });
 
 const Sketch = (p5: P5, mainFrameUri: string) => {
   const socket = new Socket(mainFrameUri, {
@@ -41,55 +67,123 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     },
   };
 
-  socket.on("sub", async (data: any) => {
-    bigDropUser(data.data.logoUrl);
-    rain(
-      utils.getRandomSizedPantherEmotes(),
-      config.drops["!rain"].emoteMultiplier,
-      config.drops["!rain"].velocities
-    );
+  socket.on("sub", async (data) => {
+    type SubEvent = SocketEvent<{ logoUrl: string }>;
+
+    const validator: Validator<SubEvent> = socketEvent({
+      logoUrl: Expect.string,
+    });
+
+    attempt(validator, data, (event) => {
+      bigDropUser(event.data.logoUrl);
+      rain(
+        utils.getRandomSizedPantherEmotes(),
+        config.drops["!rain"].emoteMultiplier,
+        config.drops["!rain"].velocities
+      );
+    });
   });
 
-  socket.on("dropuser", async (data: any) => {
-    dropUser(data.data.logoUrl);
+  socket.on("dropuser", async (data) => {
+    type DropUserEvent = SocketEvent<{ logoUrl: string }>;
+
+    const validator: Validator<DropUserEvent> = socketEvent({
+      logoUrl: Expect.string,
+    });
+
+    attempt(validator, data, (event) => {
+      dropUser(event.data.logoUrl);
+    });
   });
 
-  socket.on("dropemotes", async (data: any) => {
-    const dropConfig = config.drops[data.data.dropType];
-    if (dropConfig) {
-      data.data.emoteUrls.forEach(async (emoteUrl: string) => {
-        const image = await imageManager.getImage(emoteUrl);
-        queueDrop(image, dropConfig.velocities);
-      });
-    }
+  socket.on("dropemotes", async (data) => {
+    type DropEmotesEvent = SocketEvent<{
+      dropType: string;
+      emoteUrls: string[];
+    }>;
+
+    const validator: Validator<DropEmotesEvent> = socketEvent({
+      dropType: Expect.string,
+      emoteUrls: Expect.array(Expect.string),
+    });
+
+    attempt(validator, data, (event) => {
+      const dropConfig = config.drops[event.data.dropType];
+      if (dropConfig) {
+        event.data.emoteUrls.forEach(async (emoteUrl: string) => {
+          const image = await imageManager.getImage(emoteUrl);
+          queueDrop(image, dropConfig.velocities);
+        });
+      }
+    });
   });
 
-  socket.on("weather", async (data: any) => {
-    const dropConfig = config.drops[data.data.weatherEvent];
-    if (dropConfig) {
-      strategies[dropConfig.strategy](dropConfig);
-    }
+  socket.on("weather", async (data) => {
+    type WeatherEvent = SocketEvent<{ weatherEvent: string }>;
+
+    const validator: Validator<WeatherEvent> = socketEvent({
+      weatherEvent: Expect.string,
+    });
+
+    attempt(validator, data, (event) => {
+      const dropConfig = config.drops[event.data.weatherEvent];
+      if (dropConfig) {
+        strategies[dropConfig.strategy](dropConfig);
+      }
+    });
   });
 
-  socket.on("raid", async (data: any) => {
-    eventRain(data.data.raiderCount);
+  socket.on("raid", async (data) => {
+    type RaidEvent = SocketEvent<{ raiderCount: number }>;
+
+    const validator: Validator<RaidEvent> = socketEvent({
+      raiderCount: Expect.number,
+    });
+
+    attempt(validator, data, (event) => {
+      eventRain(event.data.raiderCount);
+    })
   });
 
-  socket.on("cheer", async (data: any) => {
-    const rawBits = parseInt(data.data.bitCount, 10);
+  socket.on("cheer", async (data) => {
+    type CheerEvent = SocketEvent<{ bitCount: string }>;
 
-    const dropBits =
-      rawBits < config.maxVisibleDrops ? rawBits : config.maxVisibleDrops;
+    const validator: Validator<CheerEvent> = socketEvent({
+      bitCount: Expect.string,
+    });
 
-    eventRain(dropBits);
+    attempt(validator, data, (event) => {
+      const rawBits = parseInt(event.data.bitCount, 10);
+
+      const dropBits =
+        rawBits < config.maxVisibleDrops ? rawBits : config.maxVisibleDrops;
+
+      eventRain(dropBits);
+    })
   });
 
-  socket.on("specialuserjoin", async (data: any) => {
-    specialUserEvent(data.data.username);
+  socket.on("specialuserjoin", async (data) => {
+    type SpecialUserJoinEvent = SocketEvent<{ username: string }>;
+
+    const validator: Validator<SpecialUserJoinEvent> = socketEvent({
+      username: Expect.string,
+    });
+
+    attempt(validator, data, (event) => {
+      specialUserEvent(event.data.username);
+    })
   });
 
-  socket.on("settrailing", async (data: any) => {
-    return (trailing = data.data.trailing);
+  socket.on("settrailing", async (data) => {
+    type SetTrailingEvent = SocketEvent<{ trailing: boolean }>;
+
+    const validator: Validator<SetTrailingEvent> = socketEvent({
+      trailing: Expect.boolean,
+    });
+
+    attempt(validator, data, (event) => {
+      return (trailing = event.data.trailing);
+    })
   });
 
   const queueDrop = (image: P5.Image, velocity: Velocity) => {

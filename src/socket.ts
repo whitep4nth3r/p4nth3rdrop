@@ -7,7 +7,7 @@ interface SocketOptions {
   reconnect: boolean;
 }
 
-type Callback = Function;
+type Callback = (data: unknown) => void;
 
 type TrustedEventMap = {
   raw: Set<Callback>;
@@ -106,7 +106,7 @@ export default class Socket {
     });
   }
 
-  parseIncoming(event: MessageEvent) {
+  parseIncoming(event: any) {
     const json: any = JSON.parse(event.data);
     let evt: TrustedEvent = "raw";
 
@@ -120,7 +120,7 @@ export default class Socket {
 
     callbacks.forEach((func) => {
       if (event.target === this.connection) {
-        func(event);
+        func(JSON.parse(event.data));
       }
     });
   }
