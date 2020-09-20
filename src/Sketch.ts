@@ -1,6 +1,6 @@
 import Socket from "./socket";
-import clipImage from "./white_circle.png";
-import clipImageBig from "./white_circle_big.png";
+import clipImage from "./assets/white_circle.png";
+import clipImageBig from "./assets/white_circle_big.png";
 import Drop from "./Drop";
 import ImageManager from "./ImageManager";
 import { config } from "./config";
