@@ -1,9 +1,7 @@
 # P4nth3rDrop!
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
-
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 _Because everyone needs an interactive Twitch game, right?_
@@ -75,13 +73,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="http://rhg.dev"><img src="https://avatars1.githubusercontent.com/u/6187256?v=4" width="100px;" alt=""/><br /><sub><b>Ryan Haskell-Glatz</b></sub></a><br /><a href="https://github.com/whitep4nth3r/p4nth3rdrop/commits?author=ryannhg" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/gigili"><img src="https://avatars0.githubusercontent.com/u/2153382?v=4" width="100px;" alt=""/><br /><sub><b>Igor Ilic</b></sub></a><br /><a href="#ideas-gigili" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/gigili"><img src="https://avatars0.githubusercontent.com/u/2153382?v=4" width="100px;" alt=""/><br /><sub><b>Igor Ilic</b></sub></a><br /><a href="#ideas-gigili" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/whitep4nth3r/p4nth3rdrop/commits?author=gigili" title="Code">💻</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
