@@ -42,6 +42,15 @@
         "ideas",
         "code"
       ]
+    },
+    {
+      "login": "antonedvard",
+      "name": "Anton Kristensen",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/5489879?v=4",
+      "profile": "http://www.akr.is",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
