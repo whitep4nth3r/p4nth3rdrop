@@ -1,32 +1,14 @@
+import {
+  SocketOptions,
+  Callback,
+  TrustedEventMap,
+  TrustedEvent,
+} from "./types";
+
 const EVENT_CODES = {
   NORMAL_CLOSURE: 1000,
   ABNORMAL_CLOSURE: 1006,
 };
-
-interface SocketOptions {
-  reconnect: boolean;
-}
-
-type Callback = (data: unknown) => void;
-
-type TrustedEventMap = {
-  raw: Set<Callback>;
-  open: Set<Callback>;
-  close: Set<Callback>;
-  error: Set<Callback>;
-  sub: Set<Callback>;
-  join: Set<Callback>;
-  message: Set<Callback>;
-  dropuser: Set<Callback>;
-  dropemotes: Set<Callback>;
-  weather: Set<Callback>;
-  raid: Set<Callback>;
-  cheer: Set<Callback>;
-  specialuserjoin: Set<Callback>;
-  settrailing: Set<Callback>;
-};
-
-type TrustedEvent = keyof TrustedEventMap;
 
 export default class Socket {
   isSecure: boolean;

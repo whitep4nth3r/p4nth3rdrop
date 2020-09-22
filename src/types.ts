@@ -64,6 +64,31 @@ export enum MainframeEvents {
   settrailing = "settrailing",
 }
 
+interface SocketOptions {
+  reconnect: boolean;
+}
+
+type Callback = (data: unknown) => void;
+
+type TrustedEventMap = {
+  raw: Set<Callback>;
+  open: Set<Callback>;
+  close: Set<Callback>;
+  error: Set<Callback>;
+  sub: Set<Callback>;
+  join: Set<Callback>;
+  message: Set<Callback>;
+  dropuser: Set<Callback>;
+  dropemotes: Set<Callback>;
+  weather: Set<Callback>;
+  raid: Set<Callback>;
+  cheer: Set<Callback>;
+  specialuserjoin: Set<Callback>;
+  settrailing: Set<Callback>;
+};
+
+type TrustedEvent = keyof TrustedEventMap;
+
 export type {
   Velocity,
   DropInstance,
@@ -73,4 +98,8 @@ export type {
   Strategies,
   Fields,
   SocketEvent,
+  SocketOptions,
+  Callback,
+  TrustedEventMap,
+  TrustedEvent,
 };
