@@ -31,6 +31,7 @@ const emotes: Emotes = {
       "302257276",
       "302257248",
     ],
+    rawrsatbeards: ["302880702"],
   },
 };
 
