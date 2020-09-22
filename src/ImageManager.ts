@@ -1,13 +1,15 @@
+import P5 from "p5";
+
 export default class ImageManager {
-  /**
-   * @param {import('p5')} p5
-   */
-  constructor(p5) {
+  p5: P5;
+  cache = new Map<string, any>();
+
+  constructor(p5: P5) {
     this.p5 = p5;
     this.cache = new Map();
   }
 
-  async getImage(url) {
+  async getImage(url: string) {
     if (this.cache.has(url)) {
       return this.cache.get(url);
     }

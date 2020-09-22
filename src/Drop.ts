@@ -1,12 +1,18 @@
-import { Vector } from 'p5';
-import config from './config';
+import P5, { Vector } from "p5";
+import { config } from "./config";
+import { Velocity, DropInstance } from "./types";
 
-export default class Drop {
-  /**
-   * @param {import('p5')} p5
-   * @param {import('p5').Image} image
-   */
-  constructor(p5, image, velocity) {
+export default class Drop implements DropInstance {
+  p5: P5;
+  image: P5.Image;
+  vector: P5.Vector;
+  landed: boolean;
+  wobble: number;
+  position: P5.Vector;
+  landTime: number;
+
+  constructor(p5: P5, image: P5.Image, incomingVelocity: Velocity) {
+    this.landTime = 0;
     this.p5 = p5;
     this.image = image;
     this.landed = false;
@@ -16,14 +22,13 @@ export default class Drop {
       -100
     );
 
-    this.velocity = velocity;
-    this.velocity = Vector.fromAngle(
+    this.vector = Vector.fromAngle(
       p5.random(p5.PI * 0.1, p5.PI * 0.9),
-      p5.random(this.velocity.min, this.velocity.max)
+      p5.random(incomingVelocity.min, incomingVelocity.max)
     );
   }
 
-  draw(now) {
+  draw(now: number) {
     let alpha = 1;
     this.p5.push();
     if (this.landed) {
@@ -32,6 +37,8 @@ export default class Drop {
         diff >= config.dropTimeout
           ? 0
           : this.p5.map(diff, config.dropTimeout, 0, 0, 1);
+      // @ts-ignore
+      // Type not available from @types/p5 currently
       this.p5.drawingContext.globalAlpha = alpha;
     }
     // translate to the point we want to rotate around, which is the top center of the drop
@@ -55,16 +62,20 @@ export default class Drop {
   }
 
   update() {
-    const { position, velocity, p5, image, landed } = this;
+    const { position, vector, p5, image, landed } = this;
+
     if (landed) return;
-    position.add(velocity);
+
+    position.add(vector);
+
+    const newVector: Vector = P5.Vector.mult(vector, -1);
     if (position.x <= 0) {
-      velocity.mult(-1, 1);
+      vector.x = newVector.x;
     } else if (position.x + image.width >= p5.windowWidth) {
-      velocity.mult(-1, 1);
+      vector.x = newVector.x;
       position.x = p5.windowWidth - image.width;
     }
-
+    
     if (position.y + image.height >= p5.windowHeight) {
       position.y = p5.windowHeight - image.height;
       this.landed = true;
