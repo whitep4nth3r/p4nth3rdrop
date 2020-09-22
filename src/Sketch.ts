@@ -7,17 +7,17 @@ import { config } from "./config";
 import { emotes } from "./emotes";
 import utils from "./utils";
 import P5 from "p5";
-import { Velocity, DropInstance, DropConfig, Strategies } from "./types";
+import {
+  Velocity,
+  DropInstance,
+  DropConfig,
+  Strategies,
+  Fields,
+  SocketEvent,
+  MainframeEvents,
+} from "./types";
 import { Expect, Validator } from "@ryannhg/safe-json";
 import { Problem } from "@ryannhg/safe-json/dist/problem";
-
-type Fields<T> = {
-  [K in keyof T]: Validator<T[K]>;
-};
-
-type SocketEvent<T> = {
-  data: T;
-};
 
 const socketEvent = <T>(fields: Fields<T>): Validator<{ data: T }> => {
   return Expect.object({
@@ -40,11 +40,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     reconnect: true,
   });
 
-  socket.on("close", () => {
-    console.log("closed");
-  });
-
-  let drops: any[] = [];
+  let drops: DropInstance[] = [];
   let dropQueue: DropInstance[] = [];
 
   const imageManager = new ImageManager(p5);
@@ -67,7 +63,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     },
   };
 
-  socket.on("sub", async (data) => {
+  socket.on(MainframeEvents.sub, async (data) => {
     type SubEvent = SocketEvent<{ logoUrl: string }>;
 
     const validator: Validator<SubEvent> = socketEvent({
@@ -84,7 +80,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     });
   });
 
-  socket.on("dropuser", async (data) => {
+  socket.on(MainframeEvents.dropuser, async (data) => {
     type DropUserEvent = SocketEvent<{ logoUrl: string }>;
 
     const validator: Validator<DropUserEvent> = socketEvent({
@@ -96,7 +92,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     });
   });
 
-  socket.on("dropemotes", async (data) => {
+  socket.on(MainframeEvents.dropemotes, async (data) => {
     type DropEmotesEvent = SocketEvent<{
       dropType: string;
       emoteUrls: string[];
@@ -118,7 +114,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     });
   });
 
-  socket.on("weather", async (data) => {
+  socket.on(MainframeEvents.weather, async (data) => {
     type WeatherEvent = SocketEvent<{ weatherEvent: string }>;
 
     const validator: Validator<WeatherEvent> = socketEvent({
@@ -133,7 +129,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     });
   });
 
-  socket.on("raid", async (data) => {
+  socket.on(MainframeEvents.raid, async (data) => {
     type RaidEvent = SocketEvent<{ raiderCount: number }>;
 
     const validator: Validator<RaidEvent> = socketEvent({
@@ -142,10 +138,10 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
 
     attempt(validator, data, (event) => {
       eventRain(event.data.raiderCount);
-    })
+    });
   });
 
-  socket.on("cheer", async (data) => {
+  socket.on(MainframeEvents.cheer, async (data) => {
     type CheerEvent = SocketEvent<{ bitCount: string }>;
 
     const validator: Validator<CheerEvent> = socketEvent({
@@ -159,10 +155,10 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
         rawBits < config.maxVisibleDrops ? rawBits : config.maxVisibleDrops;
 
       eventRain(dropBits);
-    })
+    });
   });
 
-  socket.on("specialuserjoin", async (data) => {
+  socket.on(MainframeEvents.specialuserjoin, async (data) => {
     type SpecialUserJoinEvent = SocketEvent<{ username: string }>;
 
     const validator: Validator<SpecialUserJoinEvent> = socketEvent({
@@ -171,10 +167,10 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
 
     attempt(validator, data, (event) => {
       specialUserEvent(event.data.username);
-    })
+    });
   });
 
-  socket.on("settrailing", async (data) => {
+  socket.on(MainframeEvents.settrailing, async (data) => {
     type SetTrailingEvent = SocketEvent<{ trailing: boolean }>;
 
     const validator: Validator<SetTrailingEvent> = socketEvent({
@@ -183,7 +179,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
 
     attempt(validator, data, (event) => {
       return (trailing = event.data.trailing);
-    })
+    });
   });
 
   const queueDrop = (image: P5.Image, velocity: Velocity) => {

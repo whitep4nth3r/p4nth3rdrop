@@ -1,4 +1,5 @@
 import P5 from "p5";
+import { Validator } from "@ryannhg/safe-json";
 
 interface Emotes {
   config: {
@@ -44,4 +45,32 @@ interface Strategies {
   [key: string]: (dropConfig: DropConfig) => void;
 }
 
-export type { Velocity, DropInstance, DropConfig, Config, Emotes, Strategies };
+type Fields<T> = {
+  [K in keyof T]: Validator<T[K]>;
+};
+
+type SocketEvent<T> = {
+  data: T;
+};
+
+export enum MainframeEvents {
+  sub = "sub",
+  dropuser = "dropuser",
+  dropemotes = "dropemotes",
+  weather = "weather",
+  raid = "raid",
+  cheer = "cheer",
+  specialuserjoin = "specialuserjoin",
+  settrailing = "settrailing",
+}
+
+export type {
+  Velocity,
+  DropInstance,
+  DropConfig,
+  Config,
+  Emotes,
+  Strategies,
+  Fields,
+  SocketEvent,
+};
