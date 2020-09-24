@@ -103,3 +103,7 @@ export type {
   TrustedEventMap,
   TrustedEvent,
 };
+
+export class p5 extends P5 {
+  drawingContext?: CanvasRenderingContext2D;
+}
