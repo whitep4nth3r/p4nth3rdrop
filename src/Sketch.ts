@@ -80,6 +80,19 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     });
   });
 
+  socket.on(MainframeEvents.livecoderjoin, async (data) => {
+    type DropUserEvent = SocketEvent<{ logoUrl: string }>;
+
+    const validator: Validator<DropUserEvent> = socketEvent({
+      logoUrl: Expect.string,
+    });
+
+    attempt(validator, data, (event) => {
+      bigDropUser(event.data.logoUrl);
+      eventRain(5);
+    });
+  });
+
   socket.on(MainframeEvents.dropuser, async (data) => {
     type DropUserEvent = SocketEvent<{ logoUrl: string }>;
 
@@ -211,7 +224,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
       emotes.push(p5.random(utils.getRandomSizedPantherEmotes()));
     }
 
-    rain(emotes as [], 1, config.drops["!rain"].velocities);
+    rain(emotes, 1, config.drops["!rain"].velocities);
   };
 
   const specialUserEvent = (username: string) => {
