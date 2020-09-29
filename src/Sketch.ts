@@ -80,7 +80,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     });
   });
 
-  socket.on(MainframeEvents.livecoderjoin, async (data) => {
+  socket.on(MainframeEvents.teammemberjoin, async (data) => {
     type DropUserEvent = SocketEvent<{ logoUrl: string }>;
 
     const validator: Validator<DropUserEvent> = socketEvent({

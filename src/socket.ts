@@ -41,7 +41,7 @@ export default class Socket {
       cheer: new Set(),
       specialuserjoin: new Set(),
       settrailing: new Set(),
-      livecoderjoin: new Set(),
+      teammemberjoin: new Set(),
     };
   }
 
