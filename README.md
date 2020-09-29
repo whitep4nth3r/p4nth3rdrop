@@ -1,7 +1,9 @@
 # P4nth3rDrop!
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 _An interactive panther-based drop game for your stream overlay._
@@ -14,6 +16,7 @@ _An interactive panther-based drop game for your stream overlay._
 - !snow
 - !hail
 - !blizzard
+- !fire
 
 - !drop me
 - !drop {emotes}
@@ -82,6 +85,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
