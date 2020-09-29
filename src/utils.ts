@@ -33,4 +33,10 @@ export default class {
         }`
     );
   }
+
+  static getSingleEmoteInAllSizes(emoteId: string): string[] {
+    return emotes.config.sizes.map(
+      (size) => `${emotes.config.baseUrl}${emoteId}/${size}`
+    );
+  }
 }

@@ -61,6 +61,13 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
         dropConfig.velocities
       );
     },
+    dropSingleEmoteInAllSizes: (dropConfig: DropConfig) => {
+      rain(
+        utils.getSingleEmoteInAllSizes(dropConfig.singleEmoteId as string),
+        dropConfig.emoteMultiplier,
+        dropConfig.velocities
+      );
+    },
   };
 
   socket.on(MainframeEvents.sub, async (data) => {

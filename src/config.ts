@@ -65,6 +65,16 @@ const config: Config = {
       strategy: "dropSpecificSizedPanthers",
       size: emotes.config.sizes[0],
     },
+    "!fire": {
+      emoteMultiplier: 20,
+      velocities: {
+        min: 3,
+        max: 7,
+      },
+      strategy: "dropSingleEmoteInAllSizes",
+      size: emotes.config.sizes[2],
+      singleEmoteId: "303767955",
+    },
   },
 };
 

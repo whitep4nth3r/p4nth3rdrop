@@ -30,6 +30,7 @@ interface DropConfig {
   velocities: Velocity;
   strategy: string;
   size?: string;
+  singleEmoteId?: string;
 }
 
 interface Config {
