@@ -19,12 +19,12 @@ export default class Drop implements DropInstance {
     this.wobble = p5.random(p5.TAU);
     this.position = p5.createVector(
       p5.random(0, p5.windowWidth - image.width),
-      -100,
+      -100
     );
 
     this.vector = Vector.fromAngle(
       p5.random(p5.PI * 0.1, p5.PI * 0.9),
-      p5.random(incomingVelocity.min, incomingVelocity.max),
+      p5.random(incomingVelocity.min, incomingVelocity.max)
     );
   }
 
@@ -52,8 +52,8 @@ export default class Drop implements DropInstance {
         -1,
         1,
         -this.p5.QUARTER_PI / 2,
-        this.p5.QUARTER_PI / 2,
-      ),
+        this.p5.QUARTER_PI / 2
+      )
     );
     // translate down from the rotate point to the draw point (center)
     this.p5.translate(0, this.image.height / 2);

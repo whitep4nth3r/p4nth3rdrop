@@ -24,5 +24,7 @@ yarn-error.log*
 
 .env
 
+.idea/
+
 # IntelliJ (Webstorm) project folder
 .idea/
