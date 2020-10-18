@@ -88,7 +88,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     });
 
     attempt(validator, data, (event) => {
-      bigDropUser(event.data.logoUrl);
+      dropUser(event.data.logoUrl);
       eventRain(5);
     });
   });
