@@ -6,6 +6,14 @@ const config: Config = {
   test: false,
   dropTimeout: 10_000,
   drops: {
+    "!yeet": {
+      emoteMultiplier: 1,
+      velocities: {
+        min: 80,
+        max: 100,
+      },
+      strategy: "yeet",
+    },
     "!drop": {
       emoteMultiplier: 1,
       velocities: {
