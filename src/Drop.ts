@@ -10,20 +10,32 @@ export default class Drop implements DropInstance {
   wobble: number;
   position: P5.Vector;
   landTime: number;
+  fixedPosition: boolean;
 
-  constructor(p5: P5, image: P5.Image, incomingVelocity: Velocity) {
+  constructor(
+    p5: P5,
+    image: P5.Image,
+    incomingVelocity: Velocity,
+    fixedPosition: boolean
+  ) {
+    this.fixedPosition = fixedPosition;
     this.landTime = 0;
     this.p5 = p5;
     this.image = image;
     this.landed = false;
     this.wobble = p5.random(p5.TAU);
-    this.position = p5.createVector(
-      p5.random(0, p5.windowWidth - image.width),
-      -100
-    );
 
+    const vectorX = this.fixedPosition
+      ? 0
+      : p5.random(0, p5.windowWidth - image.width);
+    const vectorY = this.fixedPosition ? 0 : -100;
+    const vectorAngle = this.fixedPosition
+      ? p5.random(0.1, 0.2)
+      : p5.random(p5.PI * 0.1, p5.PI * 0.9);
+
+    this.position = p5.createVector(vectorX, vectorY);
     this.vector = Vector.fromAngle(
-      p5.random(p5.PI * 0.1, p5.PI * 0.9),
+      vectorAngle,
       p5.random(incomingVelocity.min, incomingVelocity.max)
     );
   }
