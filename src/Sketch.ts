@@ -133,7 +133,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
       if (dropConfig) {
         event.data.emoteUrls.forEach(async (emoteUrl: string) => {
           const image = await imageManager.getImage(emoteUrl);
-          queueDrop(image, dropConfig.velocities);
+          queueDrop(image, dropConfig.velocities, false);
         });
       }
     });
@@ -207,11 +207,15 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     });
   });
 
-  const queueDrop = (image: P5.Image, velocity: Velocity) => {
+  const queueDrop = (
+    image: P5.Image,
+    velocity: Velocity,
+    fixedPosition: boolean
+  ) => {
     if (drops.length <= config.maxVisibleDrops) {
-      drops.push(new Drop(p5, image, velocity));
+      drops.push(new Drop(p5, image, velocity, fixedPosition));
     } else {
-      dropQueue.push(new Drop(p5, image, velocity));
+      dropQueue.push(new Drop(p5, image, velocity, fixedPosition));
     }
   };
 
@@ -225,7 +229,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     );
 
     while (emoteMultiplier--) {
-      images.map((image) => queueDrop(image, velocity));
+      images.map((image) => queueDrop(image, velocity, false));
     }
   };
 
@@ -252,7 +256,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     const clip = await imageManager.getImage(clipImageBig);
 
     image.mask(clip);
-    queueDrop(image, config.drops["!drop"].velocities);
+    queueDrop(image, config.drops["!drop"].velocities, false);
   };
 
   const dropUser = async (imgUrl: string) => {
@@ -261,7 +265,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     const clip = await imageManager.getImage(clipImage);
 
     image.mask(clip);
-    queueDrop(image, config.drops["!drop"].velocities);
+    queueDrop(image, config.drops["!drop"].velocities, false);
   };
 
   const yeetUser = async (imgUrl: string) => {
@@ -270,7 +274,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     const clip = await imageManager.getImage(clipImage);
 
     image.mask(clip);
-    queueDrop(image, config.drops["!yeet"].velocities);
+    queueDrop(image, config.drops["!yeet"].velocities, true);
   };
 
   p5.setup = async () => {
@@ -287,7 +291,8 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
       drops = Array.from({ length: 10 }).reduce((drops: any[]) => {
         return drops.concat(
           images.map(
-            (image) => new Drop(p5, image, config.drops["!rain"].velocities)
+            (image) =>
+              new Drop(p5, image, config.drops["!rain"].velocities, false)
           )
         );
       }, []);
