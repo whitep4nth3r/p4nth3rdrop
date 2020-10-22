@@ -63,6 +63,7 @@ export enum MainframeEvents {
   specialuserjoin = "specialuserjoin",
   settrailing = "settrailing",
   teammemberjoin = "teammemberjoin",
+  yeetuser = "yeetuser",
 }
 
 interface SocketOptions {
@@ -87,6 +88,7 @@ type TrustedEventMap = {
   specialuserjoin: Set<Callback>;
   settrailing: Set<Callback>;
   teammemberjoin: Set<Callback>;
+  yeetuser: Set<Callback>;
 };
 
 type TrustedEvent = keyof TrustedEventMap;

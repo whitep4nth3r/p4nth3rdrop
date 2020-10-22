@@ -93,6 +93,18 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     });
   });
 
+  socket.on(MainframeEvents.yeetuser, async (data) => {
+    type YeetUserEvent = SocketEvent<{ logoUrl: string }>;
+
+    const validator: Validator<YeetUserEvent> = socketEvent({
+      logoUrl: Expect.string,
+    });
+
+    attempt(validator, data, (event) => {
+      yeetUser(event.data.logoUrl);
+    });
+  });
+
   socket.on(MainframeEvents.dropuser, async (data) => {
     type DropUserEvent = SocketEvent<{ logoUrl: string }>;
 
@@ -250,6 +262,15 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
 
     image.mask(clip);
     queueDrop(image, config.drops["!drop"].velocities);
+  };
+
+  const yeetUser = async (imgUrl: string) => {
+    const _image = imgUrl.replace("300x300", "50x50");
+    const image = await imageManager.getImage(_image);
+    const clip = await imageManager.getImage(clipImage);
+
+    image.mask(clip);
+    queueDrop(image, config.drops["!yeet"].velocities);
   };
 
   p5.setup = async () => {
