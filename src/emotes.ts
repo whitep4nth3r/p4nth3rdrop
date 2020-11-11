@@ -24,7 +24,7 @@ const emotes: Emotes = {
     ],
     codingwithluce: ["303549970", "303549963", "303549970"],
     madhousesteve: ["303037940", "303037944", "303038014"],
-    rawrsatbeards: ["302880702"],
+    rawwwrs: ["302880702"],
     laylacodesit: [
       "303606742",
       "303606728",
