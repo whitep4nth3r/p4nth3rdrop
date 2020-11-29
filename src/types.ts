@@ -64,6 +64,7 @@ export enum MainframeEvents {
   settrailing = "settrailing",
   teammemberjoin = "teammemberjoin",
   yeetuser = "yeetuser",
+  follow = "follow",
 }
 
 interface SocketOptions {
@@ -88,6 +89,7 @@ type TrustedEventMap = {
   specialuserjoin: Set<Callback>;
   settrailing: Set<Callback>;
   teammemberjoin: Set<Callback>;
+  follow: Set<Callback>;
   yeetuser: Set<Callback>;
 };
 

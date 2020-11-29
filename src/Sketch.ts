@@ -80,6 +80,10 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     });
   });
 
+  socket.on(MainframeEvents.follow, (data) => {
+    eventRain(15);
+  });
+
   socket.on(MainframeEvents.teammemberjoin, async (data) => {
     type DropUserEvent = SocketEvent<{ logoUrl: string }>;
 

@@ -42,6 +42,7 @@ export default class Socket {
       specialuserjoin: new Set(),
       settrailing: new Set(),
       teammemberjoin: new Set(),
+      follow: new Set(),
       yeetuser: new Set(),
     };
   }
