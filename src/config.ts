@@ -39,6 +39,15 @@ const config: Config = {
       strategy: "dropSpecificSizedPanthers",
       size: emotes.config.sizes[1],
     },
+    "!image": {
+      emoteMultiplier: 15,
+      velocities: {
+        min: 3,
+        max: 7,
+      },
+      strategy: "dropCustomImages",
+      size: emotes.config.sizes[1],
+    },
     "!blizzard": {
       emoteMultiplier: 15,
       velocities: {

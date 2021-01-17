@@ -65,6 +65,7 @@ export enum MainframeEvents {
   teammemberjoin = "teammemberjoin",
   yeetuser = "yeetuser",
   follow = "follow",
+  imagedrop = "imagedrop",
 }
 
 interface SocketOptions {
@@ -91,9 +92,14 @@ type TrustedEventMap = {
   teammemberjoin: Set<Callback>;
   follow: Set<Callback>;
   yeetuser: Set<Callback>;
+  imagedrop: Set<Callback>;
 };
 
 type TrustedEvent = keyof TrustedEventMap;
+
+export enum ImageDrops {
+  Contentful = "contentful",
+}
 
 export type {
   Velocity,

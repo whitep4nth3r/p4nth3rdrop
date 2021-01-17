@@ -44,6 +44,7 @@ export default class Socket {
       teammemberjoin: new Set(),
       follow: new Set(),
       yeetuser: new Set(),
+      imagedrop: new Set(),
     };
   }
 
