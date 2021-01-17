@@ -15,6 +15,7 @@ import {
   Fields,
   SocketEvent,
   MainframeEvents,
+  ImageDrops,
 } from "./types";
 import { Expect, Validator } from "@ryannhg/safe-json";
 import { Problem } from "@ryannhg/safe-json/dist/problem";
@@ -106,6 +107,18 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
 
     attempt(validator, data, (event) => {
       yeetUser(event.data.logoUrl);
+    });
+  });
+
+  socket.on(MainframeEvents.imagedrop, async (data) => {
+    type ImageDropEvent = SocketEvent<{ type: string }>;
+
+    const validator: Validator<ImageDropEvent> = socketEvent({
+      type: Expect.string,
+    });
+
+    attempt(validator, data, (event) => {
+      dropImages(event.data.type);
     });
   });
 
@@ -270,6 +283,23 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
 
     image.mask(clip);
     queueDrop(image, config.drops["!drop"].velocities, false);
+  };
+
+  const dropImages = async (type: string) => {
+    switch (type) {
+      case ImageDrops.Contentful:
+        const image1 = "./drop_images/contentful_logo.png";
+        const image2 = "./drop_images/contentful_logo_dark.png";
+
+        rain(
+          [image1, image2],
+          config.drops["!image"].emoteMultiplier,
+          config.drops["!image"].velocities
+        );
+        break;
+      default:
+        return;
+    }
   };
 
   const yeetUser = async (imgUrl: string) => {
