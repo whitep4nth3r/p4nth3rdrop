@@ -31,7 +31,7 @@ const config: Config = {
       strategy: "drop",
     },
     "!rain": {
-      emoteMultiplier: 15,
+      emoteMultiplier: 10,
       velocities: {
         min: 3,
         max: 7,
@@ -40,7 +40,7 @@ const config: Config = {
       size: emotes.config.sizes[1],
     },
     "!image": {
-      emoteMultiplier: 15,
+      emoteMultiplier: 5,
       velocities: {
         min: 3,
         max: 7,
@@ -49,7 +49,7 @@ const config: Config = {
       size: emotes.config.sizes[1],
     },
     "!blizzard": {
-      emoteMultiplier: 15,
+      emoteMultiplier: 10,
       velocities: {
         min: 20,
         max: 30,
@@ -57,7 +57,7 @@ const config: Config = {
       strategy: "dropRandomSizedPanthers",
     },
     "!hail": {
-      emoteMultiplier: 15,
+      emoteMultiplier: 10,
       velocities: {
         min: 4,
         max: 10,

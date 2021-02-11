@@ -75,7 +75,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
       bigDropUser(event.data.logoUrl);
       rain(
         utils.getRandomSizedPantherEmotes(),
-        config.drops["!rain"].emoteMultiplier,
+        config.drops["!shower"].emoteMultiplier,
         config.drops["!rain"].velocities
       );
     });
@@ -93,7 +93,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     });
 
     attempt(validator, data, (event) => {
-      dropUser(event.data.logoUrl);
+      bigDropUser(event.data.logoUrl);
       eventRain(5);
     });
   });

@@ -4,6 +4,7 @@ import { Validator } from "@ryannhg/safe-json";
 interface Emotes {
   config: {
     baseUrl: string;
+    baseUrlV2: string;
     sizes: string[];
   };
   groups: {

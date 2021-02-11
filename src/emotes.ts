@@ -3,6 +3,7 @@ import { Emotes } from "./types";
 const emotes: Emotes = {
   config: {
     baseUrl: "https://static-cdn.jtvnw.net/emoticons/v1/",
+    baseUrlV2: "https://static-cdn.jtvnw.net/emoticons/v2/",
     sizes: ["1.0", "2.0", "3.0"],
   },
   groups: {
@@ -13,6 +14,11 @@ const emotes: Emotes = {
       "302880702",
       "302880692",
       "303356264",
+    ],
+    panthersV2: [
+      "emotesv2_f3b5f935cdfc4dc9b1a00b7bd5597d2f",
+      "emotesv2_b6fd6e1e6ca74e36a95c9b0ca86027e3",
+      "emotesv2_2f5a91667bd54198a32ae72087afce9e",
     ],
     thatn00b__: [
       "302960762",
@@ -40,11 +46,11 @@ const emotes: Emotes = {
     ],
     rawwwrs: ["302880702"],
     laylacodesit: [
-      "303606742",
-      "303606728",
-      "303606693",
-      "302401936",
-      "302401697",
+      "304216709",
+      "304216708",
+      "304216707",
+      "304216706",
+      "304216700",
     ],
   },
 };
