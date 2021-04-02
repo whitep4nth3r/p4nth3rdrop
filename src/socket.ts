@@ -45,6 +45,10 @@ export default class Socket {
       follow: new Set(),
       yeetuser: new Set(),
       imagedrop: new Set(),
+      startgiveaway: new Set(),
+      endgiveaway: new Set(),
+      drawgiveaway: new Set(),
+      announcegiveaway: new Set(),
     };
   }
 

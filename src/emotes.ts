@@ -44,6 +44,8 @@ const emotes: Emotes = {
       "305905536",
       "305905534",
     ],
+    dr_dinomight: [],
+    toefrog: [],
     rawwwrs: ["302880702"],
     laylacodesit: [
       "304216709",

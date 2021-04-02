@@ -85,6 +85,22 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     eventRain(15);
   });
 
+  socket.on(MainframeEvents.startgiveaway, (data) => {
+    eventRain(10);
+  });
+
+  socket.on(MainframeEvents.endgiveaway, (data) => {
+    eventRain(10);
+  });
+
+  socket.on(MainframeEvents.drawgiveaway, (data) => {
+    eventRain(10);
+  });
+
+  socket.on(MainframeEvents.announcegiveaway, (data) => {
+    eventRain(10);
+  });
+
   socket.on(MainframeEvents.teammemberjoin, async (data) => {
     type DropUserEvent = SocketEvent<{ logoUrl: string }>;
 

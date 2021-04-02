@@ -67,6 +67,10 @@ export enum MainframeEvents {
   yeetuser = "yeetuser",
   follow = "follow",
   imagedrop = "imagedrop",
+  startgiveaway = "startgiveaway",
+  endgiveaway = "endgiveaway",
+  drawgiveaway = "drawgiveaway",
+  announcegiveaway = "announcegiveaway",
 }
 
 interface SocketOptions {
@@ -94,6 +98,10 @@ type TrustedEventMap = {
   follow: Set<Callback>;
   yeetuser: Set<Callback>;
   imagedrop: Set<Callback>;
+  startgiveaway: Set<Callback>;
+  endgiveaway: Set<Callback>;
+  drawgiveaway: Set<Callback>;
+  announcegiveaway: Set<Callback>;
 };
 
 type TrustedEvent = keyof TrustedEventMap;
