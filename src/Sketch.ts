@@ -303,6 +303,16 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
 
   const dropImages = async (type: string) => {
     switch (type) {
+      case ImageDrops.Partner:
+        const check1 = "./drop_images/check.png";
+        const check2 = "./drop_images/check_small.png";
+        const check3 = "./drop_images/check_smaller.png";
+        rain(
+          [check1, check2, check3],
+          config.drops["!partner"].emoteMultiplier,
+          config.drops["!partner"].velocities
+        );
+        break;
       case ImageDrops.Contentful:
         const image1 = "./drop_images/contentful_logo.png";
         const image2 = "./drop_images/contentful_logo_dark.png";

@@ -48,6 +48,15 @@ const config: Config = {
       strategy: "dropCustomImages",
       size: emotes.config.sizes[1],
     },
+    "!partner": {
+      emoteMultiplier: 15,
+      velocities: {
+        min: 3,
+        max: 10,
+      },
+      strategy: "dropCustomImages",
+      size: emotes.config.sizes[1],
+    },
     "!blizzard": {
       emoteMultiplier: 10,
       velocities: {

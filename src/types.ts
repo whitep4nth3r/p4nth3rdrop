@@ -108,6 +108,7 @@ type TrustedEvent = keyof TrustedEventMap;
 
 export enum ImageDrops {
   Contentful = "contentful",
+  Partner = "partner",
 }
 
 export type {
