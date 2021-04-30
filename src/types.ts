@@ -71,6 +71,7 @@ export enum MainframeEvents {
   endgiveaway = "endgiveaway",
   drawgiveaway = "drawgiveaway",
   announcegiveaway = "announcegiveaway",
+  merch = "merch",
 }
 
 interface SocketOptions {
@@ -102,6 +103,7 @@ type TrustedEventMap = {
   endgiveaway: Set<Callback>;
   drawgiveaway: Set<Callback>;
   announcegiveaway: Set<Callback>;
+  merch: Set<Callback>;
 };
 
 type TrustedEvent = keyof TrustedEventMap;
@@ -109,6 +111,7 @@ type TrustedEvent = keyof TrustedEventMap;
 export enum ImageDrops {
   Contentful = "contentful",
   Partner = "partner",
+  Merch = "merch"
 }
 
 export type {

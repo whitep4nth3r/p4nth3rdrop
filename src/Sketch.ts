@@ -81,6 +81,10 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     });
   });
 
+  socket.on(MainframeEvents.merch, (data) => {
+    dropImages(ImageDrops.Merch);
+  });
+
   socket.on(MainframeEvents.follow, (data) => {
     eventRain(15);
   });
@@ -303,6 +307,17 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
 
   const dropImages = async (type: string) => {
     switch (type) {
+      case ImageDrops.Merch:
+        const merch1 = "./drop_images/merch1.png";
+        const merch2 = "./drop_images/merch2.png";
+        const merch3 = "./drop_images/merch3.png";
+        const merch4 = "./drop_images/merch4.png";
+        rain(
+          [merch1, merch2, merch3, merch4],
+          config.drops["!partner"].emoteMultiplier,
+          config.drops["!partner"].velocities
+        );
+        break;
       case ImageDrops.Partner:
         const check1 = "./drop_images/check.png";
         const check2 = "./drop_images/check_small.png";

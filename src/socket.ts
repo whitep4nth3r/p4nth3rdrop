@@ -49,6 +49,7 @@ export default class Socket {
       endgiveaway: new Set(),
       drawgiveaway: new Set(),
       announcegiveaway: new Set(),
+      merch: new Set(),
     };
   }
 
