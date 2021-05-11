@@ -111,7 +111,10 @@ type TrustedEvent = keyof TrustedEventMap;
 export enum ImageDrops {
   Contentful = "contentful",
   Partner = "partner",
-  Merch = "merch"
+  Merch = "merch",
+  Shopify = "shopify",
+  Shy = "shy",
+  Nextjs = "nextjs",
 }
 
 export type {

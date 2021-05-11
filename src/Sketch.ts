@@ -307,6 +307,30 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
 
   const dropImages = async (type: string) => {
     switch (type) {
+      case ImageDrops.Shy:
+        const face = "./drop_images/shy_head.png";
+        rain(
+          [face],
+          config.drops["!partner"].emoteMultiplier,
+          config.drops["!partner"].velocities
+        );
+        break;
+      case ImageDrops.Shopify:
+        const bag = "./drop_images/shopify.png";
+        rain(
+          [bag],
+          config.drops["!partner"].emoteMultiplier,
+          config.drops["!partner"].velocities
+        );
+        break;
+      case ImageDrops.Nextjs:
+        const nextjs = "./drop_images/nextjs.png";
+        rain(
+          [nextjs],
+          config.drops["!partner"].emoteMultiplier,
+          config.drops["!partner"].velocities
+        );
+        break;
       case ImageDrops.Merch:
         const merch1 = "./drop_images/merch1.png";
         const merch2 = "./drop_images/merch2.png";
