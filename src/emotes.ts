@@ -19,6 +19,9 @@ const emotes: Emotes = {
       "emotesv2_f3b5f935cdfc4dc9b1a00b7bd5597d2f",
       "emotesv2_b6fd6e1e6ca74e36a95c9b0ca86027e3",
       "emotesv2_2f5a91667bd54198a32ae72087afce9e",
+      "emotesv2_988672c47ba5482c89c68aef34016169",
+      "emotesv2_b7ccedd05f684a85a05587a8a8605f6c",
+      "emotesv2_56f5ba6b5b944560a2476d52027dbece",
     ],
     thatn00b__: [
       "302960762",
