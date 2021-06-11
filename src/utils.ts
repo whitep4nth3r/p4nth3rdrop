@@ -42,11 +42,20 @@ export default class {
   }
 
   static getSpecialUserEmotes(username: string): string[] {
-    return emotes.groups[username].map(
+    const v1emotes = emotes.groups[username].v1.map(
       (emoteId: string) =>
         `${emotes.config.baseUrl}${emoteId}/${
           emotes.config.sizes[this.getRandomInt(0, 2)]
         }`
     );
+
+    const v2emotes = emotes.groups[username].v2.map(
+      (emoteId: string) =>
+        `${emotes.config.baseUrlV2}${emoteId}/default/light/${
+          emotes.config.sizes[this.getRandomInt(0, 2)]
+        }`
+    );
+
+    return [...v1emotes, ...v2emotes];
   }
 }

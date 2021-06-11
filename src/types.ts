@@ -8,7 +8,7 @@ interface Emotes {
     sizes: string[];
   };
   groups: {
-    [key: string]: string[];
+    [key: string]: { v1: string[]; v2: string[] } | any;
   };
 }
 
