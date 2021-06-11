@@ -382,24 +382,24 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
 
     if (config.test) {
       specialUserEvent("imolalola");
-      // specialUserEvent("toefrog");
-      // specialUserEvent("thatn00b__");
-      // specialUserEvent("sociablesteve");
+      specialUserEvent("toefrog");
+      specialUserEvent("thatn00b__");
+      specialUserEvent("sociablesteve");
 
       // not added to queue for testing
-      // const images = await Promise.all(
-      //   utils
-      //     .getPantherEmotes(emotes.config.sizes[1])
-      //     .map((url) => imageManager.getImage(url))
-      // );
-      // drops = Array.from({ length: 10 }).reduce((drops: any[]) => {
-      //   return drops.concat(
-      //     images.map(
-      //       (image) =>
-      //         new Drop(p5, image, config.drops["!rain"].velocities, false)
-      //     )
-      //   );
-      // }, []);
+      const images = await Promise.all(
+        utils
+          .getPantherEmotes(emotes.config.sizes[1])
+          .map((url) => imageManager.getImage(url))
+      );
+      drops = Array.from({ length: 10 }).reduce((drops: any[]) => {
+        return drops.concat(
+          images.map(
+            (image) =>
+              new Drop(p5, image, config.drops["!rain"].velocities, false)
+          )
+        );
+      }, []);
     }
   };
 
