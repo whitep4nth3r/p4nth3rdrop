@@ -47,16 +47,9 @@ const emotes: Emotes = {
       "305905536",
       "305905534",
     ],
-    dr_dinomight: [],
-    toefrog: [],
+    dr_dinomight: [], //todo v2
+    toefrog: [], //todo v2
     rawwwrs: ["302880702"],
-    laylacodesit: [
-      "304216709",
-      "304216708",
-      "304216707",
-      "304216706",
-      "304216700",
-    ],
   },
 };
 
