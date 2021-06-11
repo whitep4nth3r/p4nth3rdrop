@@ -381,7 +381,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight, p5.P2D);
 
     if (config.test) {
-      specialUserEvent("matty_twoshoes");
+      specialUserEvent("imolalola");
       // specialUserEvent("toefrog");
       // specialUserEvent("thatn00b__");
       // specialUserEvent("sociablesteve");
