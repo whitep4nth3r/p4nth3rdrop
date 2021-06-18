@@ -307,27 +307,31 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
 
   const dropImages = async (type: string) => {
     switch (type) {
-      case ImageDrops.Shy:
-        const face = "./drop_images/shy_head.png";
+      case ImageDrops.Battlesnake:
+        const snake1 = "./drop_images/snakes/ConstructionSnake1.png";
+        const snake2 = "./drop_images/snakes/ConstructionSnake2.png";
+        const snake3 = "./drop_images/snakes/DragonSnake.png";
+        const snake4 = "./drop_images/snakes/HelmetSnake.png";
+        const snake5 = "./drop_images/snakes/KingSnake.png";
+        const snake6 = "./drop_images/snakes/SmartSnake.png";
+        const snake7 = "./drop_images/snakes/SpaceSnake.png";
+        const snake8 = "./drop_images/snakes/TeaSnake1.png";
+        const snake9 = "./drop_images/snakes/TeaSnake2.png";
+        const snake10 = "./drop_images/snakes/VRSnake.png";
         rain(
-          [face],
-          config.drops["!partner"].emoteMultiplier,
-          config.drops["!partner"].velocities
-        );
-        break;
-      case ImageDrops.Shopify:
-        const bag = "./drop_images/shopify.png";
-        rain(
-          [bag],
-          config.drops["!partner"].emoteMultiplier,
-          config.drops["!partner"].velocities
-        );
-        break;
-      case ImageDrops.Nextjs:
-        const nextjs = "./drop_images/nextjs.png";
-        rain(
-          [nextjs],
-          config.drops["!partner"].emoteMultiplier,
+          [
+            snake1,
+            snake2,
+            snake3,
+            snake4,
+            snake5,
+            snake6,
+            snake7,
+            snake8,
+            snake9,
+            snake10,
+          ],
+          config.drops["!snow"].emoteMultiplier,
           config.drops["!partner"].velocities
         );
         break;

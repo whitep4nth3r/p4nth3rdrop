@@ -112,9 +112,7 @@ export enum ImageDrops {
   Contentful = "contentful",
   Partner = "partner",
   Merch = "merch",
-  Shopify = "shopify",
-  Shy = "shy",
-  Nextjs = "nextjs",
+  Battlesnake = "battlesnake",
 }
 
 export type {
