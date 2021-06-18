@@ -318,6 +318,8 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
         const snake8 = "./drop_images/snakes/TeaSnake1.png";
         const snake9 = "./drop_images/snakes/TeaSnake2.png";
         const snake10 = "./drop_images/snakes/VRSnake.png";
+        const wordmark = "./drop_images/snakes/wordmark.png";
+        const wordmark2 = "./drop_images/snakes/wordmark_white.png";
         rain(
           [
             snake1,
@@ -330,8 +332,10 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
             snake8,
             snake9,
             snake10,
+            wordmark,
+            wordmark2,
           ],
-          config.drops["!snow"].emoteMultiplier,
+          5,
           config.drops["!partner"].velocities
         );
         break;
