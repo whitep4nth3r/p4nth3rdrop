@@ -2,7 +2,7 @@ import { emotes } from "./emotes";
 import { Config } from "./types";
 
 const config: Config = {
-  maxVisibleDrops: 500,
+  maxVisibleDrops: 200,
   test: false,
   dropTimeout: 10_000,
   drops: {
@@ -99,6 +99,14 @@ const config: Config = {
       },
       strategy: "dropSpecificSizedPanthers",
       size: emotes.config.sizes[0],
+    },
+    "!sub": {
+      emoteMultiplier: 1,
+      velocities: {
+        min: 1,
+        max: 3,
+      },
+      strategy: "dropRandomSizedPanthers",
     },
   },
 };

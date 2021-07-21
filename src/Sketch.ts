@@ -4,7 +4,6 @@ import clipImageBig from "./assets/white_circle_big.png";
 import Drop from "./Drop";
 import ImageManager from "./ImageManager";
 import { config } from "./config";
-import { emotes } from "./emotes";
 import utils from "./utils";
 import P5 from "p5";
 import {
@@ -75,8 +74,8 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
       bigDropUser(event.data.logoUrl);
       rain(
         utils.getRandomSizedPantherEmotes(),
-        config.drops["!shower"].emoteMultiplier,
-        config.drops["!rain"].velocities
+        config.drops["!sub"].emoteMultiplier,
+        config.drops["!sub"].velocities
       );
     });
   });
@@ -389,25 +388,25 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight, p5.P2D);
 
     if (config.test) {
-      specialUserEvent("imolalola");
-      specialUserEvent("toefrog");
-      specialUserEvent("thatn00b__");
-      specialUserEvent("sociablesteve");
-
-      // not added to queue for testing
-      const images = await Promise.all(
-        utils
-          .getPantherEmotes(emotes.config.sizes[1])
-          .map((url) => imageManager.getImage(url))
+      rain(
+        utils.getRandomSizedPantherEmotes(),
+        config.drops["!sub"].emoteMultiplier,
+        config.drops["!sub"].velocities
       );
-      drops = Array.from({ length: 10 }).reduce((drops: any[]) => {
-        return drops.concat(
-          images.map(
-            (image) =>
-              new Drop(p5, image, config.drops["!rain"].velocities, false)
-          )
-        );
-      }, []);
+      // // not added to queue for testing
+      // const images = await Promise.all(
+      //   utils
+      //     .getPantherEmotes(emotes.config.sizes[1])
+      //     .map((url) => imageManager.getImage(url))
+      // );
+      // drops = Array.from({ length: 10 }).reduce((drops: any[]) => {
+      //   return drops.concat(
+      //     images.map(
+      //       (image) =>
+      //         new Drop(p5, image, config.drops["!rain"].velocities, false)
+      //     )
+      //   );
+      // }, []);
     }
   };
 
