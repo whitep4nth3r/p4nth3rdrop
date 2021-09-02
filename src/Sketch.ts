@@ -306,6 +306,12 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
 
   const dropImages = async (type: string) => {
     switch (type) {
+      case ImageDrops.TheClaw:
+        const moth = "./drop_images/moth.png";
+        const moth_sm = "./drop_images/moth_sm.png";
+        const moth_xs = "./drop_images/moth_xs.png";
+        rain([moth, moth_sm, moth_xs], 9, config.drops["!partner"].velocities);
+        break;
       case ImageDrops.Battlesnake:
         const snake1 = "./drop_images/snakes/ConstructionSnake1.png";
         const snake2 = "./drop_images/snakes/ConstructionSnake2.png";

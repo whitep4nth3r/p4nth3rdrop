@@ -113,6 +113,7 @@ export enum ImageDrops {
   Partner = "partner",
   Merch = "merch",
   Battlesnake = "battlesnake",
+  TheClaw = "theclaw",
 }
 
 export type {
