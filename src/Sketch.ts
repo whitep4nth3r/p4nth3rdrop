@@ -345,14 +345,17 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
         );
         break;
       case ImageDrops.Merch:
-        const merch1 = "./drop_images/merch1.png";
         const merch2 = "./drop_images/merch2.png";
         const merch3 = "./drop_images/merch3.png";
-        const merch4 = "./drop_images/merch4.png";
+        const merch5 = "./drop_images/merch5.png";
+        const merch6 = "./drop_images/merch6.png";
+        const merch7 = "./drop_images/merch7.png";
+        const merch8 = "./drop_images/merch8.png";
+        const merch9 = "./drop_images/merch9.png";
         rain(
-          [merch1, merch2, merch3, merch4],
-          config.drops["!partner"].emoteMultiplier,
-          config.drops["!partner"].velocities
+          [merch2, merch3, merch5, merch6, merch7, merch8, merch9],
+          config.drops["!merch"].emoteMultiplier,
+          config.drops["!merch"].velocities
         );
         break;
       case ImageDrops.Partner:
