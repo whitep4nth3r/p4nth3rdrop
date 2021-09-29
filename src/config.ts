@@ -2,7 +2,7 @@ import { emotes } from "./emotes";
 import { Config } from "./types";
 
 const config: Config = {
-  maxVisibleDrops: 200,
+  maxVisibleDrops: 50,
   test: false,
   dropTimeout: 10_000,
   drops: {
