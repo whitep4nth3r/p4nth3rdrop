@@ -358,6 +358,26 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
           config.drops["!merch"].velocities
         );
         break;
+      case ImageDrops.Spooky:
+        const date = new Date();
+        const month = date.getMonth();
+
+        if (month === 9) {
+          const pumpkin_l = "./drop_images/pumpkin_l.png";
+          const pumpkin_s = "./drop_images/pumpkin_s.png";
+          const zombie_l = "./drop_images/zombie_l.png";
+          const zombie_s = "./drop_images/zombie_s.png";
+          const vampire_l = "./drop_images/vampire_l.png";
+          const vampire_s = "./drop_images/vampire_s.png";
+          rain(
+            [pumpkin_l, pumpkin_s, zombie_l, zombie_s, vampire_l, vampire_s],
+            config.drops["!partner"].emoteMultiplier,
+            config.drops["!partner"].velocities
+          );
+          const sound = new Audio("./sound_effects/spooky.mp3");
+          sound.play();
+        }
+        break;
       case ImageDrops.Partner:
         const check1 = "./drop_images/check.png";
         const check2 = "./drop_images/check_small.png";
