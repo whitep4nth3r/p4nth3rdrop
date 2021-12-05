@@ -109,7 +109,7 @@ type TrustedEventMap = {
 type TrustedEvent = keyof TrustedEventMap;
 
 export enum ImageDrops {
-  Contentful = "contentful",
+  Netlify = "netlify",
   Partner = "partner",
   Merch = "merch",
   Battlesnake = "battlesnake",

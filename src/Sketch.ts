@@ -388,15 +388,16 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
           config.drops["!partner"].velocities
         );
         break;
-      case ImageDrops.Contentful:
-        const image1 = "./drop_images/contentful_logo.png";
-        const image2 = "./drop_images/contentful_logo_dark.png";
+      case ImageDrops.Netlify:
+        const image1 = "./drop_images/netlify_logo.png";
+        const image2 = "./drop_images/netlify_logo_dark.png";
 
         rain(
           [image1, image2],
-          config.drops["!image"].emoteMultiplier,
-          config.drops["!image"].velocities
+          config.drops["!partner"].emoteMultiplier,
+          config.drops["!partner"].velocities
         );
+        eventRain(20);
         break;
       default:
         return;
