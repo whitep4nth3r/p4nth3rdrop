@@ -227,7 +227,8 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     });
 
     attempt(validator, data, (event) => {
-      specialUserEvent(event.data.username);
+      eventRain(10);
+      // specialUserEvent(event.data.username);
     });
   });
 
