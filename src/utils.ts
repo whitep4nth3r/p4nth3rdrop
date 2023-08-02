@@ -1,5 +1,5 @@
 import { emotes } from "./emotes";
-
+// eslint-disable-next-line
 export default class {
   static getRandomInt(min: number, max: number): number {
     min = Math.ceil(min);
