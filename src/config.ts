@@ -100,15 +100,6 @@ const config: Config = {
       strategy: "dropSpecificSizedPanthers",
       size: emotes.config.sizes[0],
     },
-    "!specialUser": {
-      emoteMultiplier: 2,
-      velocities: {
-        min: 3,
-        max: 7,
-      },
-      strategy: "dropSpecificSizedPanthers",
-      size: emotes.config.sizes[0],
-    },
     "!sub": {
       emoteMultiplier: 1,
       velocities: {

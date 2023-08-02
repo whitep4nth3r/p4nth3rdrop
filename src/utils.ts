@@ -40,22 +40,4 @@ export default class {
 
     return [...panthers, ...panthersV2];
   }
-
-  static getSpecialUserEmotes(username: string): string[] {
-    const v1emotes = emotes.groups[username].v1.map(
-      (emoteId: string) =>
-        `${emotes.config.baseUrl}${emoteId}/${
-          emotes.config.sizes[this.getRandomInt(0, 2)]
-        }`
-    );
-
-    const v2emotes = emotes.groups[username].v2.map(
-      (emoteId: string) =>
-        `${emotes.config.baseUrlV2}${emoteId}/default/light/${
-          emotes.config.sizes[this.getRandomInt(0, 2)]
-        }`
-    );
-
-    return [...v1emotes, ...v2emotes];
-  }
 }

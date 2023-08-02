@@ -219,19 +219,6 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     });
   });
 
-  socket.on(MainframeEvents.specialuserjoin, async (data) => {
-    type SpecialUserJoinEvent = SocketEvent<{ username: string }>;
-
-    const validator: Validator<SpecialUserJoinEvent> = socketEvent({
-      username: Expect.string,
-    });
-
-    attempt(validator, data, (event) => {
-      eventRain(10);
-      // specialUserEvent(event.data.username);
-    });
-  });
-
   socket.on(MainframeEvents.settrailing, async (data) => {
     type SetTrailingEvent = SocketEvent<{ trailing: boolean }>;
 
@@ -278,14 +265,6 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
     }
 
     rain(emotes, 1, config.drops["!rain"].velocities);
-  };
-
-  const specialUserEvent = (username: string) => {
-    rain(
-      utils.getSpecialUserEmotes(username),
-      5,
-      config.drops["!specialUser"].velocities
-    );
   };
 
   const bigDropUser = async (imgUrl: string) => {
@@ -442,7 +421,7 @@ const Sketch = (p5: P5, mainFrameUri: string) => {
   };
 
   p5.draw = () => {
-    if (!trailing) p5.clear();
+    if (!trailing) p5.clear(0, 0, 0, 0);
     const now = Date.now();
     drops = drops.filter((drop: any) => {
       drop.update();

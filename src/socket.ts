@@ -39,7 +39,6 @@ export default class Socket {
       weather: new Set(),
       raid: new Set(),
       cheer: new Set(),
-      specialuserjoin: new Set(),
       settrailing: new Set(),
       teammemberjoin: new Set(),
       follow: new Set(),

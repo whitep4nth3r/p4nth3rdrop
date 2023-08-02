@@ -61,7 +61,6 @@ export enum MainframeEvents {
   weather = "weather",
   raid = "raid",
   cheer = "cheer",
-  specialuserjoin = "specialuserjoin",
   settrailing = "settrailing",
   teammemberjoin = "teammemberjoin",
   yeetuser = "yeetuser",
@@ -93,7 +92,6 @@ type TrustedEventMap = {
   weather: Set<Callback>;
   raid: Set<Callback>;
   cheer: Set<Callback>;
-  specialuserjoin: Set<Callback>;
   settrailing: Set<Callback>;
   teammemberjoin: Set<Callback>;
   follow: Set<Callback>;
