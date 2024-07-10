@@ -80,14 +80,14 @@ export default class Drop implements DropInstance {
 
     position.add(vector);
 
-    const newVector: Vector = P5.Vector.mult(vector, -1);
+    const newVector: any = P5.Vector.mult(vector, -1);
     if (position.x <= 0) {
       vector.x = newVector.x;
     } else if (position.x + image.width >= p5.windowWidth) {
       vector.x = newVector.x;
       position.x = p5.windowWidth - image.width;
     }
-    
+
     if (position.y + image.height >= p5.windowHeight) {
       position.y = p5.windowHeight - image.height;
       this.landed = true;
