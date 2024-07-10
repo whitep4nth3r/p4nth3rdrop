@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@ryannhg/safe-json": "^0.1.0",
+    "@sentry/cli": "^2.32.1",
+    "@sentry/react": "^8.17.0",
     "p5": "^1.1.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -20,8 +22,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "build": "react-scripts build && npm run sentry:sourcemaps",
+    "eject": "react-scripts eject",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org the-claw --project p4nth3rdrop ./build && sentry-cli sourcemaps upload --org the-claw --project p4nth3rdrop ./build"
   },
   "eslintConfig": {
     "extends": "react-app"
